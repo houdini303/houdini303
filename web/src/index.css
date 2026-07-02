@@ -103,6 +103,195 @@ body {
   box-shadow: 0 0 0 4px rgba(59, 163, 255, 0.35), 0 4px 14px rgba(0, 0, 0, 0.6);
 }
 
+/* --- Bottom sheet (Fáze 4) --- */
+.sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  background: rgba(17, 22, 33, 0.96);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-top-left-radius: 22px;
+  border-top-right-radius: 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.sheet-handle {
+  padding: 8px 18px 4px;
+  cursor: grab;
+  user-select: none;
+}
+.sheet-grabber {
+  width: 40px;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.22);
+  margin: 2px auto 10px;
+}
+.sheet-count {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.sheet-count strong {
+  color: var(--text);
+}
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ok);
+  animation: livedot 1.6s ease-in-out infinite;
+}
+
+.sheet-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 16px 12px;
+  padding: 0 12px;
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.sheet-search-icon {
+  color: var(--muted);
+  font-size: 18px;
+}
+.sheet-search input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 15px;
+}
+.sheet-search input::placeholder {
+  color: var(--muted);
+}
+.sheet-clear {
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--muted);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.sheet-body {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 10px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.sheet-section-title {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 10px 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.sheet-section-title span {
+  opacity: 0.6;
+}
+
+.line-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  border-radius: 14px;
+  text-align: left;
+}
+.line-row:active {
+  background: rgba(255, 255, 255, 0.06);
+}
+.line-badge {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 16px;
+  color: #06101d;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+}
+.line-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.line-name {
+  font-weight: 600;
+  font-size: 15px;
+}
+.line-kind {
+  font-size: 12px;
+  color: var(--muted);
+}
+.line-count {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.line-count--live {
+  color: var(--ok);
+}
+
+.stop-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+}
+.stop-pin {
+  color: var(--accent);
+  font-size: 16px;
+}
+.stop-name {
+  flex: 1;
+  font-size: 14px;
+}
+.stop-lines {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.stop-line-dot {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #06101d;
+}
+
 /* MapLibre chrome sladěné s tmavým motivem */
 .maplibregl-ctrl-attrib {
   background: rgba(10, 14, 22, 0.6) !important;

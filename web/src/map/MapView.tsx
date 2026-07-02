@@ -107,7 +107,7 @@ export function MapView({ onReady }: MapViewProps) {
         style={{
           position: 'absolute',
           right: 'calc(env(safe-area-inset-right) + 14px)',
-          bottom: 'calc(env(safe-area-inset-bottom) + 120px)',
+          bottom: 'calc(env(safe-area-inset-bottom) + 196px)', // nad peek sheetem
           display: 'flex',
           flexDirection: 'column',
           gap: 12,

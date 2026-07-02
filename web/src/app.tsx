@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import type maplibregl from 'maplibre-gl';
 import { useState } from 'react';
-import { fetchVehicles } from './api.ts';
+import { fetchLines, fetchVehicles } from './api.ts';
 import { MapView } from './map/MapView.tsx';
+import { TransitSheet } from './sheet/TransitSheet.tsx';
 import { POLL_MS, VehicleLayer } from './vehicles/VehicleLayer.tsx';
 
-// Fáze 3: fullscreen mapa + živé pohyblivé vozy nad ní. LIVE pill plave nahoře.
-// Bottom sheet + detail vozu přijdou ve Fázi 4–5.
+// Fáze 4: fullscreen mapa + živé vozy + tažitelný bottom sheet (search, linky).
 export function App() {
   const [map, setMap] = useState<maplibregl.Map | null>(null);
   const { data, isError } = useQuery({
@@ -14,12 +14,20 @@ export function App() {
     queryFn: fetchVehicles,
     refetchInterval: POLL_MS,
   });
+  const { data: lines } = useQuery({
+    queryKey: ['lines'],
+    queryFn: fetchLines,
+    staleTime: 60 * 60 * 1000,
+  });
 
   return (
     <>
       <MapView onReady={setMap} />
       {map && <VehicleLayer map={map} />}
       <LivePill count={data?.count} error={isError} />
+      {map && (
+        <TransitSheet map={map} lines={lines ?? []} vehicles={data?.vehicles ?? []} />
+      )}
     </>
   );
 }

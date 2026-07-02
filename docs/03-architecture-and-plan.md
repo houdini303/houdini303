@@ -150,11 +150,17 @@ Každá fáze je samostatně ověřitelná (něco jde spustit / vidět).
 - **Výstup:** vozy jezdí po mapě plynule jako v Uberu. *(ověřeno: 15 vozů,
   10/16 se hýbe během glide, ikony rotují dle směru, 11 trolejbusů/4 busy, 0 chyb)*
 
-### Fáze 4 — Bottom sheet + seznamy
-- Snap pointy (peek/half/full), gesta, spring.
-- Peek: search „linka/zastávka" + počet vozů. Half: seznam linek / nejbližší
-  zastávky. Našeptávač.
-- **Výstup:** ovládání a navigace nad mapou.
+### Fáze 4 — Bottom sheet + seznamy ✅ HOTOVO
+- Tažitelný panel (Framer Motion), snap pointy peek/half/full se spring gesty,
+  grabber; drží se jen za handle (search jde psát).
+- Peek: search „linka/zastávka" + počet vozů živě. Expanded: seznam všech 33
+  linek s barevným badge, typem (trolejbus/autobus) a počtem živých vozů; řazeno
+  linky s vozy napřed. Filtr linek (číslo) + zastávek (název → linky, které tam
+  staví). Tap na linku → fitBounds na její živé vozy + collapse.
+- **Výstup:** ovládání a navigace nad mapou. *(ověřeno: peek/half/full drag,
+  filtr „13"→Linka 13/Trolejbus/2 vozy, 33 linek, 0 chyb)*
+- Pozn.: detail/odjezdy zastávek → Fáze 5 (chybí GPS zastávek v `/api/lines`;
+  `data/pardubice_stops.csv` má souřadnice jen u 90/198, ne u centrálních).
 
 ### Fáze 5 — Detailové pohledy
 - **Detail vozu:** zpoždění jako hero (barevně), aktuální/příští zastávka,

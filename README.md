@@ -5,12 +5,13 @@ hromadné dopravy v reálném čase.
 
 ## Stav projektu
 
-Analýza & plán dokončeny, stack potvrzen. **Fáze 0–3 hotové a ověřené** —
-`proxy/` servíruje živý `/api/vehicles` (GPS vozů + CORS), `web/` je prémiová
-fullscreen tmavá mapa Pardubic (MapLibre + OpenFreeMap, 3D budovy, intro fly-in,
-geolokace) s **živými pohyblivými vozy** — plynulá interpolace polohy, natočení
-dle azimutu, barva a číslo linky. **Další krok: Fáze 4** (bottom sheet + seznamy).
-Viz [`docs/03`](docs/03-architecture-and-plan.md).
+Analýza & plán dokončeny, stack potvrzen. **Fáze 0–4 hotové a ověřené** —
+`proxy/` servíruje živý `/api/vehicles` + `/api/lines` (CORS), `web/` je prémiová
+fullscreen tmavá mapa Pardubic (MapLibre + OpenFreeMap, 3D budovy) s **živými
+pohyblivými ikonami vozů** (autobus/trolejbus, naklánění + rotace dle směru) a
+**tažitelným bottom sheetem** (search + seznam linek s živými počty). **Další
+krok: Fáze 5** (detailové pohledy: vůz / zastávka / linka). Viz
+[`docs/03`](docs/03-architecture-and-plan.md).
 
 ## Potvrzený stack
 

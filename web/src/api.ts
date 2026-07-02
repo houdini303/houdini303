@@ -27,3 +27,22 @@ export async function fetchVehicles(): Promise<VehiclesResponse> {
   if (!res.ok) throw new Error(`/api/vehicles → HTTP ${res.status}`);
   return res.json();
 }
+
+export interface Stop {
+  number: number;
+  name: string;
+  lat?: number;
+  lon?: number;
+}
+
+export interface Line {
+  number: number;
+  stops: Stop[];
+  color: string;
+}
+
+export async function fetchLines(): Promise<Line[]> {
+  const res = await fetch('/api/lines');
+  if (!res.ok) throw new Error(`/api/lines → HTTP ${res.status}`);
+  return res.json();
+}
