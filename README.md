@@ -5,9 +5,10 @@ hromadné dopravy v reálném čase.
 
 ## Stav projektu
 
-Fáze **analýza & plán dokončena**, stack potvrzen. Datové zdroje ověřené a
-funkční, UX vzor a architektura navržené. **Další krok: Fáze 0+1 buildu**
-(scaffold + proxy s reálnými daty). Viz [`docs/03`](docs/03-architecture-and-plan.md).
+Analýza & plán dokončeny, stack potvrzen. **Fáze 0 (scaffold) a Fáze 1 (proxy
+s reálnými daty) hotové a ověřené** — `web/` PWA skořápka běží, `proxy/` servíruje
+živý `/api/vehicles` s GPS vozů a CORS. **Další krok: Fáze 2** (mapová skořápka
+MapLibre). Viz [`docs/03`](docs/03-architecture-and-plan.md).
 
 ## Potvrzený stack
 
@@ -30,4 +31,15 @@ Framer Motion · TanStack Query · Hono proxy · vite-plugin-pwa
 
 ## Rychlý start (dev)
 
-> Zatím není co spustit — čeká se na build (viz plán).
+Dva procesy — proxy (živá data) a web (PWA). Ve dvou terminálech:
+
+```bash
+# 1) proxy → http://localhost:8787
+cd proxy && npm install && npm run dev
+
+# 2) web → http://localhost:5173  (dev proxy /api → 8787)
+cd web && npm install && npm run dev
+```
+
+Otevři <http://localhost:5173> — appka ukáže počet vozů právě v provozu
+(živý ping na `/api/vehicles`). Detaily viz [`proxy/README.md`](proxy/README.md).

@@ -1,0 +1,21 @@
+{
+  "name": "houdini303-proxy",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Serverless proxy pro DPMP real-time feed — skryje klíč, přidá CORS, cachuje, agreguje 33 linek a normalizuje na Vehicle[]/Line[].",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "hono": "^4.6.14",
+    "@hono/node-server": "^1.13.7"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "@types/node": "^22.10.2"
+  }
+}

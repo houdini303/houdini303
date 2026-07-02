@@ -120,16 +120,17 @@ začátku buildu podle deploy cíle.)
 
 Každá fáze je samostatně ověřitelná (něco jde spustit / vidět).
 
-### Fáze 0 — Scaffold
+### Fáze 0 — Scaffold ✅ HOTOVO
 - Inicializace `web/` (Vite React TS) + `proxy/` (Hono).
 - PWA manifest, ikony placeholder, safe-area layout.
-- **Výstup:** prázdná fullscreen appka se spustí.
+- **Výstup:** prázdná fullscreen appka se spustí. *(build + PWA SW ověřeno)*
 
-### Fáze 1 — Proxy s reálnými daty ⭐ (odemyká vše)
+### Fáze 1 — Proxy s reálnými daty ⭐ (odemyká vše) ✅ HOTOVO
 - Klient DPMP (key + `text/plain`, správné kódování).
-- `/api/lines` (cache) a `/api/vehicles` (iterace 33 linek paralelně, cache 8 s).
-- Normalizace na `Vehicle[]`.
+- `/api/lines` (cache 1 h) a `/api/vehicles` (iterace 33 linek paralelně, cache 8 s).
+- Normalizace na `Vehicle[]` (delaySec, nextStop dopočet, barvy linek).
 - **Výstup:** `GET /api/vehicles` vrací živý seznam vozů s GPS + CORS.
+  *(ověřeno: ~14–16 vozů, `linesFailed:0`, diakritika OK, CORS `*`)*
 
 ### Fáze 2 — Mapová skořápka
 - Fullscreen MapLibre, tmavý styl (OpenFreeMap), centrováno na Pardubice.

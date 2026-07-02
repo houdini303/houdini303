@@ -1,0 +1,42 @@
+:root {
+  --bg: #0b0f17;
+  --surface: #141a26;
+  --text: #eef2f8;
+  --muted: #8b97ad;
+  --accent: #3ba3ff;
+  --ok: #34d399;
+  --warn: #fbbf24;
+  --err: #f87171;
+
+  color-scheme: dark;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  overscroll-behavior: none;
+}
+
+/* Fullscreen app shell se safe-area (notch / home indicator) */
+#root {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
