@@ -1,0 +1,199 @@
+stop_id,stop_name,stop_lat,stop_lon
+ST_4446,"Pardubice, Čepí,prodejna",,
+ST_4447,"Pardubice, Černá u Bohdanče,bytovky",,
+ST_4448,"Pardubice, Černá u Bohdanče,obecní úřad",,
+ST_4449,"Pardubice, Černá u Bohdanče,,sever",,
+ST_4450,"Pardubice, Dašice,Pod Dubem",,
+ST_4451,"Pardubice, Dašice,Zminný,odb.Veská",,
+ST_4452,"Pardubice, Dříteč",,
+ST_4453,"Pardubice, Němčice,chaloupky",,
+ST_4454,"Pardubice, Němčice,,rybníček",,
+ST_4455,"Pardubice, Ostřešany,,hřiště",,
+ST_4456,"Pardubice, Ostřešany,park",,
+ST_4457,"Pardubice, Ostřešany,škola",,
+ST_4458,"Pardubice, Ostřešany,točna",,
+ST_4459,"Pardubice, 17.listopadu",,
+ST_4460,"Pardubice, Albert HM",,
+ST_4461,"Pardubice, Bezdíčkova",,
+ST_4462,"Pardubice, Blahoutova",,
+ST_4463,"Pardubice, Demokratické mládeže",,
+ST_4464,"Pardubice, Domov mládeže",,
+ST_4465,"Pardubice, Dopravní podnik",,
+ST_4466,"Pardubice, ERA,Zámeček",,
+ST_4467,"Pardubice, Globus",,
+ST_4468,"Pardubice, Globus,parkoviště",,
+ST_4469,"Pardubice, Gorkého",,
+ST_4470,"Pardubice, Gorkého,škola",,
+ST_4471,"Pardubice, Hlavní nádraží",,
+ST_4472,"Pardubice, Holubova",,
+ST_4473,"Pardubice, Hůrka",,
+ST_4474,"Pardubice, Husova",,
+ST_4475,"Pardubice, Jana Palacha",,
+ST_4476,"Pardubice, Jilemnického",,
+ST_4477,"Pardubice, K Letišti",,
+ST_4478,"Pardubice, K nemocnici",,
+ST_4479,"Pardubice, K Polabinám",,
+ST_4480,"Pardubice, Karla IV.",,
+ST_4481,"Pardubice, Karla Šípka",,
+ST_4482,"Pardubice, Kpt.Nálepky",,
+ST_4483,"Pardubice, Krajský úřad",,
+ST_4484,"Pardubice, Krematorium",,
+ST_4485,"Pardubice, Kréta",,
+ST_4486,"Pardubice, Kyjevská",,
+ST_4487,"Pardubice, Letiště terminál",,
+ST_4488,"Pardubice, Lexova",,
+ST_4489,"Pardubice, Masarykovo nám.",,
+ST_4490,"Pardubice, Na Bukovině",,
+ST_4491,"Pardubice, Na Drážce",,
+ST_4492,"Pardubice, Na Haldě",,
+ST_4493,"Pardubice, Na Okrouhlíku",,
+ST_4494,"Pardubice, Nadjezd Paramo",,
+ST_4495,"Pardubice, Náměstí Republiky",,
+ST_4496,"Pardubice, Nemocnice",,
+ST_4497,"Pardubice, Nemošická,bytovky",,
+ST_4498,"Pardubice, Palackého",,
+ST_4499,"Pardubice, Poděbradská",,
+ST_4500,"Pardubice, Průmyslová",,
+ST_4501,"Pardubice, Rokycanova",,
+ST_4502,"Pardubice, S.K.Neumanna",,
+ST_4503,"Pardubice, Sakařova",,
+ST_4504,"Pardubice, Staňkova škola",,
+ST_4505,"Pardubice, Stavařov",,
+ST_4506,"Pardubice, Sukova",,
+ST_4507,"Pardubice, Štrossova",,
+ST_4508,"Pardubice, Teplého",,
+ST_4509,"Pardubice, Terminál Univerzita",,
+ST_4510,"Pardubice, U kapitána",,
+ST_4511,"Pardubice, U Kostelíčka",,
+ST_4512,"Pardubice, U Marka",,
+ST_4513,"Pardubice, Ulice Svobody",,
+ST_4514,"Pardubice, Univerzita",,
+ST_4515,"Pardubice, Vápenka",,
+ST_4516,"Pardubice, Výzkumný ústav",,
+ST_4517,"Pardubice, Zámeček",,
+ST_4518,"Pardubice, Závodiště",,
+ST_4519,"Pardubice, Závodu míru",,
+ST_4520,"Pardubice, Závodu míru,sídliště",,
+ST_4521,"Pardubice, Zborovské náměstí",,
+ST_4522,"Pardubice, Zdravotnická škola",,
+ST_4523,"Pardubice, Zimní stadion",,
+ST_4524,"Pardubice, Zlatá štika",,
+ST_4525,"Pardubice, Cihelna,točna",,
+ST_4526,"Pardubice, Černá za Bory",,
+ST_4527,"Pardubice, Černá za Bory,Dělnická",,
+ST_4528,"Pardubice, Holandská",,
+ST_4529,"Pardubice, Černá za Bory,Lipiny",,
+ST_4530,"Pardubice, Černá za Bory,Na Vsi",,
+ST_4531,"Pardubice, Černá za Bory,odb.žel.zast.",,
+ST_4532,"Pardubice, Černá za Bory,pošta",,
+ST_4533,"Pardubice, Černá za Bory,prodejna",,
+ST_4534,"Pardubice, Řempo",,
+ST_4535,"Pardubice, Černá za Bory,silo",,
+ST_4536,"Pardubice, Doubravice",,
+ST_4537,"Pardubice, Drozdice",,
+ST_4538,"Pardubice, Dubina,centrum",,
+ST_4539,"Pardubice, Dubina,Dubinská",,
+ST_4540,"Pardubice, Dubina,garáže",,
+ST_4541,"Pardubice, Dubina,penzion",,
+ST_4542,"Pardubice, Dubina,sever",,
+ST_4543,"Pardubice, Dubina,točna",,
+ST_4544,"Pardubice, Dukla,KD",,
+ST_4545,"Pardubice, Dukla,náměstí",,
+ST_4546,"Pardubice, Dukla,u náměstí",,
+ST_4547,"Pardubice, Dukla,vozovna",,
+ST_4548,"Pardubice, Hostovice",,
+ST_4549,"Pardubice, Lány na Důlku",,
+ST_4550,"Pardubice, Lány na Důlku,Krchleby",,
+ST_4551,"Pardubice, Lány na Důlku,Na Cihelně",,
+ST_4552,"Pardubice, Mnětice",,
+ST_4746,"Prelouc, Přelouč,,Pardubická-centrum",,
+ST_9165,Choteč,50.083157,15.880046
+ST_9166,"Choteč, odbočka",50.079098,15.866108
+ST_9167,"Choteč, škola",50.082233,15.888373
+ST_11534,"Kostěnice, železniční stanice",50.013271,15.897437
+ST_12391,Kunětice,50.070438,15.826926
+ST_12609,Lány u Dašic,50.043156,15.888988
+ST_14668,Mikulovice,49.990227,15.774127
+ST_14669,"Mikulovice, Blato",49.990330,15.763854
+ST_15840,"Němčice, chaloupky",50.087540,15.804964
+ST_17537,"Pardubice, Černá za Bory, pošta",50.025711,15.823036
+ST_17538,"Pardubice, Černá za Bory, odbočka železniční zastávka",50.028107,15.829709
+ST_17539,"Pardubice, Dubina, centrum",50.044903,15.806698
+ST_17540,"Pardubice, k nemocnici",50.031487,15.789692
+ST_17541,"Pardubice, Kokešov",50.019596,15.656510
+ST_17542,"Pardubice, Ohrazenice, škola",50.061817,15.757449
+ST_17543,"Pardubice, Slovany, Spojilská",50.031887,15.803576
+ST_17544,"Pardubice, zdravotnická škola",50.019909,15.806566
+ST_17545,"Pardubice, 17. listopadu",50.033382,15.770192
+ST_17546,"Pardubice, závodiště",50.025204,15.747171
+ST_17547,"Pardubice, Žižín",50.019066,15.846694
+ST_17548,"Pardubice, Dražkovice",50.000355,15.771894
+ST_17549,"Pardubice, Semtín, hl. brána",50.061123,15.728551
+ST_17550,"Pardubice, Semtín, železniční zastávka",50.062008,15.744069
+ST_17551,"Pardubice, Trnová, křižovatka",50.058334,15.757748
+ST_19288,"Ráby, Perníková chaloupka",50.078419,15.804346
+ST_19289,"Ráby, prodejna",50.074757,15.803377
+ST_19290,"Ráby, křižovatka",50.070621,15.801997
+ST_19291,"Ráby, Kunětická hora",50.082172,15.805010
+ST_20095,"Rybitví, Uma",50.062820,15.710722
+ST_20096,"Rybitví, závod",50.059860,15.715606
+ST_20619,"Sezemice, pošta",50.066284,15.852685
+ST_20620,"Sezemice, Havlíčkova",50.064892,15.853256
+ST_20621,"Sezemice, zámostí",50.060005,15.848738
+ST_20623,"Sezemice, Kladina",50.062050,15.875045
+ST_20624,"Sezemice, Malé Koloděje",50.045223,15.871424
+ST_20626,"Sezemice, Velké Koloděje",50.052452,15.876061
+ST_20627,"Sezemice, Lukovna",50.079487,15.843596
+ST_20628,"Sezemice, Počaply, Chalupy",50.055958,15.837137
+ST_20629,"Sezemice, Veská, Dětské centrum",50.038368,15.862868
+ST_21318,"Srch, ObÚ",50.085205,15.762736
+ST_21460,"Staré Hradiště, hostinec",50.063541,15.775986
+ST_21461,"Staré Hradiště, ObÚ",50.065063,15.774838
+ST_21462,"Staré Hradiště, Psinek",50.066715,15.783481
+ST_21463,"Staré Hradiště, Na Hledíku",50.063026,15.766391
+ST_21464,"Staré Hradiště, Brozany",50.064938,15.796687
+ST_21465,"Staré Hradiště, Hradiště na Písku",50.079052,15.781040
+ST_21472,Staré Jesenčany,49.998745,15.755045
+ST_21584,"Starý Mateřov, náves",50.001797,15.715881
+ST_21585,"Starý Mateřov, odbočka",50.001881,15.708724
+ST_23606,Třebosice,49.997131,15.734846
+ST_24557,"Valy, Pardubická",50.029865,15.617761
+ST_26872,Časy,50.069313,15.898479
+ST_29276,"Pardubice, nemocnice",50.029404,15.790276
+ST_29315,"Pardubice, Staré Čívice, Panasonic",50.019981,15.687099
+ST_29540,"Pardubice, Masarykovo náměstí",50.037560,15.769532
+ST_29999,"Srch, točna",50.082996,15.772925
+ST_30047,"Albrechtice, Pardubice",49.774361,18.538340
+ST_30876,"Pardubice, Staré Čívice, Průmyslová zóna",50.027786,15.680767
+ST_31071,"Dašice, Malolánské",50.032925,15.871942
+ST_31074,"Dašice, Zminný",50.028328,15.866165
+ST_31736,"Sezemice, Počaply, rozc.",50.065514,15.833879
+ST_31737,"Sezemice, Počaply, točna",50.068356,15.830713
+ST_31925,Pardubice hlavní nádraží,50.031670,15.757556
+ST_31927,Pardubice-Opočínek,50.030434,15.669647
+ST_31929,Pardubice-Svítkov,50.031864,15.722617
+ST_31931,Pardubice-Pardubičky,50.031212,15.788895
+ST_31932,Pardubice centrum,50.031647,15.772532
+ST_31934,Kostěnice,50.012833,15.897656
+ST_31937,Pardubice-Černá za Bory,50.027447,15.830425
+ST_32186,Pardubice-Rosice nad Labem,50.045429,15.742853
+ST_32189,Pardubice závodiště,50.024296,15.751037
+ST_32813,Pardubice-Semtín,50.061909,15.748196
+ST_33500,"Sezemice, Severní",50.070843,15.858445
+ST_33856,"Sezemice, Veská, most",50.040558,15.857467
+ST_34111,"Přelouč, Pardubická-centrum",50.038296,15.557784
+ST_34855,"Pardubice, Černá za Bory, silo",50.027023,15.812164
+ST_34856,"Pardubice, Staré Čívice, JTEKT",50.023499,15.685452
+ST_34857,"Pardubice, Staré Čívice, KYB",50.024529,15.681364
+ST_34858,"Pardubice, Nemošice, škola",50.011246,15.796309
+ST_34859,"Dašice, Pod Dubem",50.026802,15.854953
+ST_34873,"Starý Mateřov, točna",50.001205,15.723778
+ST_34874,"Pardubice, Pardubičky, točna",50.025249,15.792977
+ST_34875,"Pardubice, ERA Zámeček",50.025707,15.803069
+ST_35054,"Pardubice, Hlaváčova",50.031715,15.775303
+ST_35963,"Sezemice, škola",50.063370,15.857180
+ST_36024,"Choltice, Pardubická",49.988834,15.624035
+ST_36274,"Úvaly, náměstí Arnošta z Pardubic",50.073662,14.729864
+ST_36324,"Ostřešany, hřiště",49.998501,15.798568
+ST_38504,"Dubany, V alejích",49.991951,15.719412
+ST_44854,"Úvaly,Náměstí Arnošta z Pardubic",50.073730,14.730288
