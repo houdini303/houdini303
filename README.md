@@ -8,7 +8,7 @@ hromadné dopravy v reálném čase.
 Analýza & plán dokončeny, stack potvrzen. **Fáze 0–4 hotové a ověřené** —
 `proxy/` servíruje živý `/api/vehicles` + `/api/lines` (CORS), `web/` je prémiová
 fullscreen tmavá mapa Pardubic (MapLibre + OpenFreeMap, 3D budovy) s **živými
-pohyblivými ikonami vozů** (autobus/trolejbus, naklánění + rotace dle směru) a
+3D modely vozů** (Three.js — autobus/trolejbus, naklánění + rotace dle směru) a
 **tažitelným bottom sheetem** (search + seznam linek s živými počty). **Další
 krok: Fáze 5** (detailové pohledy: vůz / zastávka / linka). Viz
 [`docs/03`](docs/03-architecture-and-plan.md).
@@ -16,7 +16,8 @@ krok: Fáze 5** (detailové pohledy: vůz / zastávka / linka). Viz
 ## Potvrzený stack
 
 Vite + React + TypeScript · MapLibre GL + OpenFreeMap (bez klíče) ·
-Framer Motion · TanStack Query · Hono proxy · vite-plugin-pwa
+Three.js (3D modely vozů) · Framer Motion · TanStack Query · Hono proxy ·
+vite-plugin-pwa
 
 ## Co umíme získat
 
