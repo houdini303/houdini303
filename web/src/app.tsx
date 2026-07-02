@@ -1,20 +1,24 @@
 import { useQuery } from '@tanstack/react-query';
+import type maplibregl from 'maplibre-gl';
+import { useState } from 'react';
 import { fetchVehicles } from './api.ts';
 import { MapView } from './map/MapView.tsx';
+import { POLL_MS, VehicleLayer } from './vehicles/VehicleLayer.tsx';
 
-// Fáze 2: fullscreen mapa Pardubic jako hlavní plocha. Nad ní plave LIVE pill
-// s počtem vozů (živě z /api/vehicles). Markery vozů přijdou ve Fázi 3,
-// bottom sheet ve Fázi 4.
+// Fáze 3: fullscreen mapa + živé pohyblivé vozy nad ní. LIVE pill plave nahoře.
+// Bottom sheet + detail vozu přijdou ve Fázi 4–5.
 export function App() {
+  const [map, setMap] = useState<maplibregl.Map | null>(null);
   const { data, isError } = useQuery({
     queryKey: ['vehicles'],
     queryFn: fetchVehicles,
-    refetchInterval: 12_000,
+    refetchInterval: POLL_MS,
   });
 
   return (
     <>
-      <MapView />
+      <MapView onReady={setMap} />
+      {map && <VehicleLayer map={map} />}
       <LivePill count={data?.count} error={isError} />
     </>
   );

@@ -64,6 +64,61 @@ body {
   }
 }
 
+/* --- Marker vozu (Fáze 3) --- */
+.veh {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  will-change: transform;
+}
+
+/* rotující vrstva — nese směrovou šipku, otáčí se dle azimutu */
+.veh-heading {
+  position: absolute;
+  inset: 0;
+  transform: rotate(0deg);
+  transition: transform 0.9s ease-out;
+}
+
+/* směrová šipka nad chipem, ukazuje směr jízdy */
+.veh-arrow {
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 9px solid var(--veh-color, #fff);
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.5));
+}
+
+/* vzpřímený barevný chip s číslem linky (vždy čitelný) */
+.veh-chip {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #06101d;
+  font-size: 14px;
+  font-weight: 800;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.18s ease;
+}
+
+.veh--selected {
+  z-index: 10;
+}
+.veh--selected .veh-chip {
+  transform: scale(1.28);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(59, 163, 255, 0.35), 0 4px 14px rgba(0, 0, 0, 0.6);
+}
+
 /* MapLibre chrome sladěné s tmavým motivem */
 .maplibregl-ctrl-attrib {
   background: rgba(10, 14, 22, 0.6) !important;

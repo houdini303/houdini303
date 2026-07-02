@@ -139,11 +139,13 @@ Každá fáze je samostatně ověřitelná (něco jde spustit / vidět).
 - Geolokace + recenter FAB, srovnání na sever, safe-area, LIVE pill s počtem vozů.
 - **Výstup:** hezká živá mapa Pardubic. *(ověřeno screenshotem, 0 chyb v konzoli)*
 
-### Fáze 3 — Živé vozy ⭐ (největší „wow")
-- Marker vrstva z `/api/vehicles`, polling každých 10–15 s (TanStack Query).
-- **Plynulá interpolace** polohy mezi aktualizacemi.
-- **Natočení** ikony dle vypočteného azimutu; barva dle linky; badge s číslem.
-- **Výstup:** vozy jezdí po mapě plynule jako v Uberu.
+### Fáze 3 — Živé vozy ⭐ (největší „wow") ✅ HOTOVO
+- Marker vrstva z `/api/vehicles`, polling každých 10 s (TanStack Query).
+- **Plynulá interpolace** polohy mezi aktualizacemi (rAF glide ~9,5 s, lerp).
+- **Natočení** směrové šipky dle azimutu vypočteného z pohybu (anti-jitter práh
+  8 m); barva chipu dle linky; badge s číslem linky; tap → fly-to + zvýraznění.
+- **Výstup:** vozy jezdí po mapě plynule jako v Uberu. *(ověřeno: 16 vozů,
+  10/16 se hýbe během glide, 8/16 má vypočtený azimut, 0 chyb v konzoli)*
 
 ### Fáze 4 — Bottom sheet + seznamy
 - Snap pointy (peek/half/full), gesta, spring.
