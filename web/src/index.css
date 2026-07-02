@@ -64,58 +64,42 @@ body {
   }
 }
 
-/* --- Marker vozu (Fáze 3) --- */
-.veh {
-  position: relative;
-  width: 34px;
-  height: 34px;
+/* --- Marker vozu (Fáze 3): ikona autobusu/trolejbusu + štítek s linkou --- */
+.veh-icon {
   cursor: pointer;
   will-change: transform;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.55));
+}
+.veh-icon svg {
+  display: block;
 }
 
-/* rotující vrstva — nese směrovou šipku, otáčí se dle azimutu */
-.veh-heading {
-  position: absolute;
-  inset: 0;
-  transform: rotate(0deg);
-  transition: transform 0.9s ease-out;
-}
-
-/* směrová šipka nad chipem, ukazuje směr jízdy */
-.veh-arrow {
-  position: absolute;
-  top: -7px;
-  left: 50%;
-  width: 0;
-  height: 0;
-  transform: translateX(-50%);
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 9px solid var(--veh-color, #fff);
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.5));
-}
-
-/* vzpřímený barevný chip s číslem linky (vždy čitelný) */
-.veh-chip {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  color: #06101d;
-  font-size: 14px;
+/* vzpřímený štítek s číslem linky — vždy čelem k obrazovce, čitelný */
+.veh-label {
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: rgba(10, 14, 22, 0.9);
+  color: #fff;
+  font-size: 12px;
   font-weight: 800;
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+  line-height: 1.5;
+  border: 2px solid var(--veh-color, #fff);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  white-space: nowrap;
   transition: transform 0.18s ease;
+  pointer-events: auto;
+}
+/* trolejbus: jemné odlišení štítku (dvojitý okraj = "sběrače") */
+.veh-label--trolley {
+  box-shadow: 0 0 0 1px rgba(219, 228, 240, 0.5), 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
-.veh--selected {
-  z-index: 10;
-}
-.veh--selected .veh-chip {
-  transform: scale(1.28);
-  border-color: var(--accent);
+.veh-label--selected {
+  transform: scale(1.25);
+  background: var(--accent);
+  color: #04101f;
+  border-color: #fff;
   box-shadow: 0 0 0 4px rgba(59, 163, 255, 0.35), 0 4px 14px rgba(0, 0, 0, 0.6);
 }
 

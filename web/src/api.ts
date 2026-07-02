@@ -1,8 +1,11 @@
 // Tenký klient nad proxy (/api/*). Dev proxy směruje na Hono (port 8787).
 
+export type VehicleKind = 'trolleybus' | 'bus';
+
 export interface Vehicle {
   id: string;
   line: string;
+  kind: VehicleKind;
   destination: string;
   lat: number;
   lon: number;

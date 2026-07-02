@@ -142,10 +142,13 @@ Každá fáze je samostatně ověřitelná (něco jde spustit / vidět).
 ### Fáze 3 — Živé vozy ⭐ (největší „wow") ✅ HOTOVO
 - Marker vrstva z `/api/vehicles`, polling každých 10 s (TanStack Query).
 - **Plynulá interpolace** polohy mezi aktualizacemi (rAF glide ~9,5 s, lerp).
-- **Natočení** směrové šipky dle azimutu vypočteného z pohybu (anti-jitter práh
-  8 m); barva chipu dle linky; badge s číslem linky; tap → fly-to + zvýraznění.
-- **Výstup:** vozy jezdí po mapě plynule jako v Uberu. *(ověřeno: 16 vozů,
-  10/16 se hýbe během glide, 8/16 má vypočtený azimut, 0 chyb v konzoli)*
+- **Ikony vozů** (Uber/Bolt styl): top-down silueta autobusu/**trolejbusu**
+  (typ odvozen z čísla linky — API ho nedává), leží na mapě (pitchAlignment) →
+  **naklání se s 3D perspektivou** a **rotuje dle azimutu** (plynulá interpolace
+  polohy i rotace v rAF, anti-jitter práh 8 m). Barva dle linky, vzpřímený štítek
+  s číslem, tap → fly-to + zvýraznění.
+- **Výstup:** vozy jezdí po mapě plynule jako v Uberu. *(ověřeno: 15 vozů,
+  10/16 se hýbe během glide, ikony rotují dle směru, 11 trolejbusů/4 busy, 0 chyb)*
 
 ### Fáze 4 — Bottom sheet + seznamy
 - Snap pointy (peek/half/full), gesta, spring.

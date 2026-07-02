@@ -1,4 +1,13 @@
-import type { Line, RawConnection, RawLine, Stop, Vehicle } from './types.js';
+import type { Line, RawConnection, RawLine, Stop, Vehicle, VehicleKind } from './types.js';
+
+// Trolejbusové linky v Pardubicích (zdroj: trolejbus.cz, DPMP JŘ 2026).
+// API typ vozidla nedává → odvozujeme z čísla linky. Zbytek = autobus.
+const TROLLEYBUS_LINES = new Set([1, 2, 3, 4, 5, 7, 11, 13, 27, 33]);
+
+export function vehicleKind(line: string): VehicleKind {
+  const n = Number(String(line).replace(/\D/g, ''));
+  return TROLLEYBUS_LINES.has(n) ? 'trolleybus' : 'bus';
+}
 
 // "00:00:52" → 52 ; "-00:01:30" → -90 ; "None"/null/"" → null
 export function parseDelaySec(raw: string | null | undefined): number | null {
@@ -39,6 +48,7 @@ export function normalizeVehicle(conn: RawConnection): Vehicle | null {
   return {
     id: bus.vid,
     line: bus.line_name,
+    kind: vehicleKind(bus.line_name),
     destination: bus.destination_name,
     lat: bus.gps_latitude,
     lon: bus.gps_longitude,

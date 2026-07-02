@@ -1,8 +1,11 @@
 // Normalizovaný datový model (viz docs/03) — to, co proxy servíruje ven.
 
+export type VehicleKind = 'trolleybus' | 'bus';
+
 export interface Vehicle {
   id: string; // vid
   line: string; // "2"
+  kind: VehicleKind; // odvozeno z čísla linky (API typ nedává)
   destination: string; // "Pardubičky,točna"
   lat: number;
   lon: number;
