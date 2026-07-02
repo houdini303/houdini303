@@ -5,8 +5,14 @@ hromadné dopravy v reálném čase.
 
 ## Stav projektu
 
-Fáze **analýza & plán**. Datové zdroje jsou ověřené a funkční (viz níže), UX
-vzor a architektura navržené. Build teprve začíná.
+Fáze **analýza & plán dokončena**, stack potvrzen. Datové zdroje ověřené a
+funkční, UX vzor a architektura navržené. **Další krok: Fáze 0+1 buildu**
+(scaffold + proxy s reálnými daty). Viz [`docs/03`](docs/03-architecture-and-plan.md).
+
+## Potvrzený stack
+
+Vite + React + TypeScript · MapLibre GL + OpenFreeMap (bez klíče) ·
+Framer Motion · TanStack Query · Hono proxy · vite-plugin-pwa
 
 ## Co umíme získat
 

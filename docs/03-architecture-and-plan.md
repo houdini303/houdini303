@@ -5,6 +5,23 @@ pardubické MHD ve stylu Uber/Bolt.
 
 ---
 
+## 0. Stav rozhodnutí — POTVRZENO ✅
+
+Stack je odsouhlasen (2026-07-02). Zafixované volby:
+
+- **Frontend:** Vite + React + TypeScript
+- **Mapa:** MapLibre GL JS + **OpenFreeMap** dlaždice (zdarma, bez klíče), tmavý styl
+- **Animace / bottom sheet:** Framer Motion
+- **Data fetching:** TanStack Query (polling)
+- **Proxy:** Hono (serverless — skryje klíč, CORS, cache, agregace linek)
+- **PWA:** vite-plugin-pwa
+- **Deploy:** Vercel / Cloudflare (doladí se ve Fázi 7)
+
+**Další akce:** začít **Fází 0 + 1** (scaffold `web/` + `proxy/`, proxy s reálnými
+daty → živý `/api/vehicles`).
+
+---
+
 ## 1. Architektura (high-level)
 
 ```
