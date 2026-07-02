@@ -32,11 +32,52 @@ body {
   overscroll-behavior: none;
 }
 
-/* Fullscreen app shell se safe-area (notch / home indicator) */
+/* Fullscreen app shell. Mapa jede edge-to-edge pod notch/home indikátor,
+   overlaye si safe-area řeší samy. */
 #root {
-  display: flex;
   position: fixed;
   inset: 0;
-  padding: env(safe-area-inset-top) env(safe-area-inset-right)
-    env(safe-area-inset-bottom) env(safe-area-inset-left);
+  overflow: hidden;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes livedot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.7);
+  }
+}
+
+/* MapLibre chrome sladěné s tmavým motivem */
+.maplibregl-ctrl-attrib {
+  background: rgba(10, 14, 22, 0.6) !important;
+  border-radius: 8px;
+}
+.maplibregl-ctrl-attrib,
+.maplibregl-ctrl-attrib a {
+  color: var(--muted) !important;
+  font-size: 10px;
+}
+/* skryjeme defaultní geolocate tlačítko — máme vlastní FAB */
+.maplibregl-ctrl-bottom-right .maplibregl-ctrl-group {
+  display: none;
+}
+.maplibregl-ctrl-bottom-left {
+  margin-bottom: env(safe-area-inset-bottom);
 }

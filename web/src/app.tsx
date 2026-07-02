@@ -1,63 +1,68 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchVehicles } from './api.ts';
+import { MapView } from './map/MapView.tsx';
 
-// Fáze 0: prázdná fullscreen skořápka, která se spustí. Jako živý důkaz
-// propojení s proxy (Fáze 1) pingne /api/vehicles a ukáže počet vozů.
-// Mapa (MapLibre) přijde ve Fázi 2, živé markery ve Fázi 3.
+// Fáze 2: fullscreen mapa Pardubic jako hlavní plocha. Nad ní plave LIVE pill
+// s počtem vozů (živě z /api/vehicles). Markery vozů přijdou ve Fázi 3,
+// bottom sheet ve Fázi 4.
 export function App() {
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isError } = useQuery({
     queryKey: ['vehicles'],
     queryFn: fetchVehicles,
     refetchInterval: 12_000,
   });
 
   return (
-    <main
+    <>
+      <MapView />
+      <LivePill count={data?.count} error={isError} />
+    </>
+  );
+}
+
+function LivePill({ count, error }: { count?: number; error: boolean }) {
+  return (
+    <div
       style={{
-        flex: 1,
+        position: 'absolute',
+        top: 'calc(env(safe-area-inset-top) + 14px)',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 6,
         display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
-        gap: 20,
-        textAlign: 'center',
-        padding: 24,
+        gap: 8,
+        padding: '8px 14px',
+        borderRadius: 999,
+        background: 'rgba(20,26,38,0.82)',
+        border: '1px solid rgba(255,255,255,0.08)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+        fontSize: 13,
+        fontWeight: 600,
+        whiteSpace: 'nowrap',
       }}
     >
-      <img src="/icon.svg" alt="" width={72} height={72} />
-      <div>
-        <h1 style={{ fontSize: 22, fontWeight: 700 }}>MHD Pardubice živě</h1>
-        <p style={{ color: 'var(--muted)', marginTop: 4, fontSize: 14 }}>
-          Fáze 0 — skořápka běží. Mapa přijde ve Fázi 2.
-        </p>
-      </div>
-
-      <div
+      <span
         style={{
-          background: 'var(--surface)',
-          borderRadius: 16,
-          padding: '16px 24px',
-          minWidth: 220,
+          width: 8,
+          height: 8,
+          borderRadius: '50%',
+          background: error ? 'var(--err)' : 'var(--ok)',
+          animation: error ? 'none' : 'livedot 1.6s ease-in-out infinite',
         }}
-      >
-        {isLoading && <span style={{ color: 'var(--muted)' }}>Načítám vozy…</span>}
-        {isError && (
-          <span style={{ color: 'var(--err)' }}>
-            Proxy neběží? {String((error as Error)?.message ?? error)}
-          </span>
-        )}
-        {data && (
-          <>
-            <div style={{ fontSize: 40, fontWeight: 800, color: 'var(--accent)' }}>
-              {data.count}
-            </div>
-            <div style={{ color: 'var(--muted)', fontSize: 13 }}>
-              vozů právě v provozu
-              {data.linesFailed > 0 && ` · ${data.linesFailed} linek selhalo`}
-            </div>
-          </>
-        )}
-      </div>
-    </main>
+      />
+      {error ? (
+        <span style={{ color: 'var(--err)' }}>Živá data nedostupná</span>
+      ) : count == null ? (
+        <span style={{ color: 'var(--muted)' }}>Připojuji živý provoz…</span>
+      ) : (
+        <span>
+          <span style={{ color: 'var(--accent)', fontWeight: 800 }}>{count}</span> vozů
+          MHD živě
+        </span>
+      )}
+    </div>
   );
 }

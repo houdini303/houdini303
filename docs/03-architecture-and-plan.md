@@ -132,10 +132,12 @@ Každá fáze je samostatně ověřitelná (něco jde spustit / vidět).
 - **Výstup:** `GET /api/vehicles` vrací živý seznam vozů s GPS + CORS.
   *(ověřeno: ~14–16 vozů, `linesFailed:0`, diakritika OK, CORS `*`)*
 
-### Fáze 2 — Mapová skořápka
-- Fullscreen MapLibre, tmavý styl (OpenFreeMap), centrováno na Pardubice.
-- Recenter na polohu uživatele, safe-area, přepínač light/dark.
-- **Výstup:** hezká živá mapa Pardubic.
+### Fáze 2 — Mapová skořápka ✅ HOTOVO
+- Fullscreen MapLibre, tmavý styl (OpenFreeMap) doladěný do naší palety
+  (silniční hierarchie, řeka Labe, budovy) + 3D extruze budov.
+- Intro fly-in s náklonem (pitch 45, easeOutCubic) → „premium" pocit.
+- Geolokace + recenter FAB, srovnání na sever, safe-area, LIVE pill s počtem vozů.
+- **Výstup:** hezká živá mapa Pardubic. *(ověřeno screenshotem, 0 chyb v konzoli)*
 
 ### Fáze 3 — Živé vozy ⭐ (největší „wow")
 - Marker vrstva z `/api/vehicles`, polling každých 10–15 s (TanStack Query).
