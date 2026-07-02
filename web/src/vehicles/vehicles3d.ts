@@ -11,8 +11,8 @@ import { createVehicleLabel, type VehicleLabelEl } from './marker.ts';
 const SIZE_K = 6.5;
 const ZREF = 15;
 const GLIDE_MS = 9_500; // plynulý přejezd mezi updaty
-const MIN_MOVE_M = 8; // anti-jitter práh pro azimut
-const ROT_EASE = 0.16; // rychlost dorotování k cíli
+const MIN_MOVE_M = 12; // anti-jitter práh pro azimut
+const ROT_TAU = 220; // časová konstanta uhlazení rotace (ms) — jemné zatáčení
 const DEG2RAD = Math.PI / 180;
 
 interface Item {
@@ -23,6 +23,8 @@ interface Item {
   startLat: number;
   targetLng: number;
   targetLat: number;
+  prevLng: number; // předchozí GPS (pro stabilní azimut GPS→GPS)
+  prevLat: number;
   startTime: number;
   curBearing: number;
   targetBearing: number;
@@ -75,11 +77,47 @@ export class Vehicles3D {
     };
   }
 
+  private lastTime = 0;
+  // Veškerá transformace se počítá ZDE, z právě renderované matice → modely
+  // dokonale drží na mapě i během zoomu/pohybu (žádná desynchronizace hodin).
   private render(matrix: ArrayLike<number>) {
     if (!this.renderer) return;
+    const now = performance.now();
+    const dt = this.lastTime ? Math.min(120, now - this.lastTime) : 16;
+    this.lastTime = now;
+
+    const zoomFactor = SIZE_K * Math.pow(2, ZREF - this.map.getZoom());
+    const rotEase = 1 - Math.exp(-dt / ROT_TAU); // FPS-nezávislé uhlazení
+    let animating = false;
+
+    for (const it of this.items.values()) {
+      const p = progress(it, now);
+      if (p < 1) animating = true;
+      const lng = lerp(it.startLng, it.targetLng, p);
+      const lat = lerp(it.startLat, it.targetLat, p);
+
+      if (it.hasBearing) {
+        const diff = ((it.targetBearing - it.curBearing + 540) % 360) - 180;
+        if (Math.abs(diff) > 0.4) {
+          it.curBearing += diff * rotEase;
+          animating = true;
+        } else {
+          it.curBearing = it.targetBearing;
+        }
+      }
+      setModelMatrix(it.group, lng, lat, it.curBearing, zoomFactor);
+      it.label.setLngLat([lng, lat]);
+    }
+
     this.camera.projectionMatrix = new THREE.Matrix4().fromArray(matrix as number[]);
     this.renderer.resetState();
+    // vyčisti depth → vozy kreslíme VŽDY nad mapou/budovami (jako Uber markery),
+    // ale se zachovanou vlastní 3D hloubkou (self-sorting karoserie)
+    this.renderer.clearDepth();
     this.renderer.render(this.scene, this.camera);
+
+    // repaint jen dokud se něco hýbe → v klidu mapa idluje (žádné blikání)
+    if (animating) this.map.triggerRepaint();
   }
 
   // Sesouhlasení s daty: přidat / posunout cíl / odebrat vozy.
@@ -91,14 +129,18 @@ export class Vehicles3D {
       seen.add(v.id);
       const it = this.items.get(v.id);
       if (it) {
-        it.startLng = currentLng(it, now);
-        it.startLat = currentLat(it, now);
-        it.startTime = now;
-        if (distanceMeters(it.startLng, it.startLat, v.lon, v.lat) > MIN_MOVE_M) {
-          it.targetBearing = bearing(it.startLng, it.startLat, v.lon, v.lat);
+        // azimut ze skutečného pohybu GPS→GPS (ne z interpolované polohy) →
+        // stabilní směr, který se neškube podle zpoždění interpolace
+        if (distanceMeters(it.prevLng, it.prevLat, v.lon, v.lat) > MIN_MOVE_M) {
+          it.targetBearing = bearing(it.prevLng, it.prevLat, v.lon, v.lat);
           if (!it.hasBearing) it.curBearing = it.targetBearing;
           it.hasBearing = true;
         }
+        it.startLng = currentLng(it, now);
+        it.startLat = currentLat(it, now);
+        it.startTime = now;
+        it.prevLng = v.lon;
+        it.prevLat = v.lat;
         it.targetLng = v.lon;
         it.targetLat = v.lat;
       } else {
@@ -114,6 +156,8 @@ export class Vehicles3D {
         if (this.selectedId === id) this.selectedId = null;
       }
     }
+
+    this.map.triggerRepaint(); // nastartuj animační smyčku pro nové cíle
   }
 
   private addItem(v: Vehicle, now: number) {
@@ -144,28 +188,13 @@ export class Vehicles3D {
       startLat: v.lat,
       targetLng: v.lon,
       targetLat: v.lat,
+      prevLng: v.lon,
+      prevLat: v.lat,
       startTime: now,
       curBearing: 0,
       targetBearing: 0,
       hasBearing: false,
     });
-  }
-
-  // Per-frame: interpolace polohy i rotace → matice modelu + poloha štítku.
-  tick(now: number) {
-    const zoomFactor = SIZE_K * Math.pow(2, ZREF - this.map.getZoom());
-    for (const it of this.items.values()) {
-      const lng = currentLng(it, now);
-      const lat = currentLat(it, now);
-
-      if (it.hasBearing) {
-        const diff = ((it.targetBearing - it.curBearing + 540) % 360) - 180;
-        if (Math.abs(diff) > 0.3) it.curBearing += diff * ROT_EASE;
-      }
-      setModelMatrix(it.group, lng, lat, it.curBearing, zoomFactor);
-      it.label.setLngLat([lng, lat]);
-    }
-    if (this.items.size) this.map.triggerRepaint();
   }
 
   private select(id: string) {

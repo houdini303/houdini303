@@ -16,7 +16,6 @@ interface Props {
 // polohy i rotace + triggerRepaint).
 export function VehicleLayer({ map, onSelect }: Props) {
   const ctrlRef = useRef<Vehicles3D | null>(null);
-  const rafRef = useRef(0);
   const onSelectRef = useRef(onSelect);
   onSelectRef.current = onSelect;
 
@@ -29,6 +28,7 @@ export function VehicleLayer({ map, onSelect }: Props) {
   useEffect(() => {
     const ctrl = new Vehicles3D(map, (v) => onSelectRef.current?.(v));
     ctrlRef.current = ctrl;
+    if (import.meta.env.DEV) (window as unknown as { __map: unknown }).__map = map;
 
     const add = () => {
       if (!map.getLayer('vehicles-3d')) map.addLayer(ctrl.layer);
@@ -38,14 +38,7 @@ export function VehicleLayer({ map, onSelect }: Props) {
     if (map.isStyleLoaded()) add();
     else map.on('idle', add);
 
-    const tick = () => {
-      ctrl.tick(performance.now());
-      rafRef.current = requestAnimationFrame(tick);
-    };
-    rafRef.current = requestAnimationFrame(tick);
-
     return () => {
-      cancelAnimationFrame(rafRef.current);
       map.off('idle', add);
       ctrl.dispose();
       ctrlRef.current = null;
