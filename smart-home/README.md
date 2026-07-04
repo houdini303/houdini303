@@ -13,10 +13,11 @@ nástěnném iPadu (kiosk).
 
 | Kategorie | Zařízení | Cílová integrace |
 |-----------|----------|------------------|
-| Osvětlení | Sonoff LED pásky (Wi-Fi) | Lokálně — **ESPHome** (doporučeno) nebo Sonoff LAN / Tasmota |
-| Osvětlení | IKEA Trådfri žárovky | **Zigbee** přes Zigbee2MQTT |
-| Osvětlení | Sonoff Zigbee žárovka + další značky | **Zigbee** přes Zigbee2MQTT (jeden most pro všechny) |
+| Osvětlení | Sonoff LED pásek (Wi-Fi, deviceid `1001100b5d`) | Lokálně — **SonoffLAN** (LAN mód) nebo ESPHome/Tasmota |
+| Osvětlení | Sonoff **B02-BL-A60** (Wi-Fi žárovka, laditelná bílá E27) | Lokálně — **SonoffLAN** (LAN mód) |
+| Osvětlení | IKEA Trådfri žárovky + další Zigbee značky | **Zigbee** přes Zigbee2MQTT |
 | Kávovar | Jura + Wi-Fi relé (Shelly Plus 1 / Sonoff Mini) | Lokálně — relé jako `switch`, ovládání přes pulzní `script` |
+| Topení | **Tado v3+** termostat | Lokálně přes **HomeKit Controller** (doporučeno) nebo cloud Tado integrace |
 | Rozhraní | Nástěnný iPad | HA app v kiosk módu (Guided Access) |
 
 ## Obsah dokumentace
@@ -24,11 +25,12 @@ nástěnném iPadu (kiosk).
 | Dokument | Co řeší |
 |----------|---------|
 | [`01-architektura.md`](01-architektura.md) | HW hub, síť, VLAN, zálohy, add-ony, MQTT broker |
-| [`02-osvetleni.md`](02-osvetleni.md) | Sonoff pásky (ESPHome), Zigbee žárovky (IKEA + Sonoff), skupiny a zóny |
+| [`02-osvetleni.md`](02-osvetleni.md) | Sonoff Wi-Fi pásek + B02-BL-A60 žárovka (SonoffLAN), IKEA Zigbee žárovky, skupiny a zóny |
 | [`03-kavovar-jura.md`](03-kavovar-jura.md) | Zapojení relé (bezpečnost!), pulzní logika, `script` a `button` |
 | [`04-dashboard-ipad.md`](04-dashboard-ipad.md) | Lovelace layout pro iPad, karty místností, kiosk mód |
 | [`05-automatizace-sceny.md`](05-automatizace-sceny.md) | Scény ("Večerní relax", "Vše vypnout"), ranní kávovar 7:00 |
 | [`06-postup-instalace.md`](06-postup-instalace.md) | Krok-za-krokem checklist celého nasazení |
+| [`07-termostat-tado.md`](07-termostat-tado.md) | Tado v3+ lokálně přes HomeKit, topné zóny, scény a automatizace |
 
 ## Doporučený nákupní seznam (nad rámec toho, co už máš)
 

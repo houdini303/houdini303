@@ -1,13 +1,20 @@
-# 02 — Osvětlení: Sonoff LED pásky + Zigbee žárovky
+# 02 — Osvětlení: Sonoff Wi-Fi + IKEA/Zigbee žárovky
 
 Máme dva různé „světy" osvětlení, které v HA sjednotíme do jednoho rozhraní:
 
-1. **Sonoff LED pásky (Wi-Fi)** → lokální řízení přes ESPHome / Sonoff LAN / Tasmota.
-2. **Zigbee žárovky** (IKEA Trådfri + Sonoff Zigbee bulb + případně další značky)
+1. **Sonoff Wi-Fi zařízení** (eWeLink) → lokální řízení přes SonoffLAN / ESPHome / Tasmota:
+   - **Sonoff LED pásek**, deviceid `1001100b5d`
+   - **Sonoff B02-BL-A60** — Wi-Fi žárovka, laditelná bílá E27 (**pozor: Wi-Fi, ne Zigbee!**)
+2. **Zigbee žárovky** (IKEA Trådfri + případně další Zigbee značky)
    → přes jeden Zigbee most (Zigbee2MQTT).
 
 Výsledkem jsou entity typu `light.*`, které se v HA i na dashboardu chovají
 stejně, bez ohledu na to, jak jsou fyzicky připojené.
+
+> **Poznámka k Sonoff žárovce:** označení **B02-BL-A60** znamená Wi-Fi žárovku
+> (řada „B..“ = bulb, komunikace přes eWeLink Wi-Fi), takže **nejde do Zigbee2MQTT**
+> — patří ke stejné cestě jako Wi-Fi LED pásek (sekce 2.1, SonoffLAN). Kdybys měl
+> i Sonoff **Zigbee** žárovku (řada „SNZB“ apod.), ta by šla do Zigbee2MQTT.
 
 ---
 
@@ -83,23 +90,44 @@ light:
 Po flashi HA pásek **automaticky objeví** (ESPHome integrace) → vznikne entita
 `light.pasek_obyvak`.
 
-### Rychlá cesta bez flashe: Sonoff LAN (HACS)
+### Doporučená cesta pro tvá zařízení: SonoffLAN (HACS)
 
-Pokud nechceš pájet/flashovat hned:
+Pro **tvůj konkrétní pásek (`1001100b5d`)** i **žárovku B02-BL-A60** je nejsnazší
+a nejrychlejší cesta **SonoffLAN** — žárovky řady B02 mají navíc proprietární čip,
+který se prakticky nedá přeflashovat, takže ESPHome u nich odpadá.
+
 1. V HACS nainstaluj integraci **SonoffLAN** (autor AlexxIT).
-2. Přihlas se jednou účtem eWeLink (kvůli stažení seznamu zařízení a klíčů).
-3. Přepni na **LAN mód** — dál už zařízení jedou lokálně.
+2. Přihlas se jednou účtem eWeLink (kvůli stažení seznamu zařízení a klíčů) — pak už
+   běží lokálně.
+3. Přepni integraci na režim **`local`** (LAN mód), ať se necloudí.
+4. V seznamu zařízení najdeš pásek podle **deviceid `1001100b5d`** a žárovku
+   B02-BL-A60 → pojmenuj entity (`light.obyvak_pasek`, `light.loznice_zarovka`).
 
-> Kompromis: u RGB pásků bývá LAN mód někdy omezený (jas ano, plná paleta ne
-> vždy). Když narazíš, přejdi na ESPHome.
+> **Předpoklad LAN módu:** zařízení musí mít v eWeLink aktuální firmware a být na
+> stejné (IoT) L2 síti jako hub (mDNS). SonoffLAN si po prvním cloud přihlášení
+> stáhne šifrovací klíče a dál komunikuje po LAN i bez internetu.
+
+**Vlastnosti entit:**
+- **B02-BL-A60** = laditelná bílá → v HA `light` s podporou **jasu** a **teploty
+  bílé** (`color_temp`), bez plné RGB palety.
+- **LED pásek** — dle modelu jas / barva; pokud je RGB, čekej `rgb_color`.
+
+> Kompromis SonoffLAN: u některých RGB pásků bývá LAN mód omezený (jas ano, plná
+> paleta ne vždy). Pokud u pásku `1001100b5d` narazíš na limity a půjde flashnout
+> (ESP32/ESP8266), přejdi na **ESPHome** dle konfigurace výše. Žárovku B02 nech na
+> SonoffLAN.
 
 ---
 
-## 2.2 Zigbee žárovky (IKEA Trådfri + Sonoff + další)
+## 2.2 Zigbee žárovky (IKEA Trådfri + další Zigbee značky)
 
 Máme **smíšený ekosystém značek** — to je přesně situace, kde Zigbee vyhrává:
-jeden koordinátor (dongle) + jeden most a **všechny značky se sejdou v jednom
-rozhraní**, lokálně a bez cloudů výrobců.
+jeden koordinátor (dongle) + jeden most a **všechny Zigbee značky se sejdou v
+jednom rozhraní**, lokálně a bez cloudů výrobců.
+
+> Sonoff žárovka **B02-BL-A60 sem NEpatří** — je Wi-Fi (viz sekce 2.1). Do
+> Zigbee2MQTT jde IKEA Trådfri a případné další **Zigbee** žárovky (Sonoff SNZB,
+> Philips Hue bez můstku, Tuya Zigbee, Müller…).
 
 ### Hardware, který přibyde
 
@@ -128,10 +156,8 @@ rozhraní**, lokálně a bez cloudů výrobců.
 3. Zapni **„Permit join"** (na omezenou dobu — pak zase vypni kvůli bezpečnosti).
 4. **IKEA Trådfri žárovka:** reset = 6× rychle cvaknout vypínačem (nebo párovací
    sekvence dle typu). Objeví se v Z2M → dej jí čitelné jméno (`obyvak_hlavni`).
-5. **Sonoff Zigbee žárovka:** obvykle zapnout a 3× cvaknout / dle manuálu →
-   objeví se stejně.
-6. Ostatní značky (Philips Hue bez můstku, Tuya Zigbee, Müller…) — Z2M zvládá,
-   párování dle konkrétního typu.
+5. Ostatní **Zigbee** značky (Sonoff SNZB, Philips Hue bez můstku, Tuya Zigbee,
+   Müller…) — Z2M zvládá, párování dle konkrétního typu.
 
 > 💡 **Tip na dosah (mesh):** Zigbee žárovky, které jsou **trvale pod proudem**,
 > fungují jako **routery** a posilují síť. Žárovka na vypínači, který lidé

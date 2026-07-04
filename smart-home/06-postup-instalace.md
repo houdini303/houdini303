@@ -7,10 +7,12 @@ ze zadání (analýza → server → párování → UI a logika).
 
 - [ ] **Ověřit přesné modely** LED pásků a žárovek (kritické!):
   - [ ] Sonoff LED pásek: model + čip → lze flashovat ESPHome/Tasmota? (viz [`02`](02-osvetleni.md))
+  - [ ] Sonoff LED pásek `1001100b5d`: přes SonoffLAN; ověřit, zda jde flashnout ESPHome (jinak zůstat na LAN)
+  - [ ] Sonoff **B02-BL-A60**: Wi-Fi žárovka → SonoffLAN (laditelná bílá, ne RGB)
   - [ ] IKEA žárovky: potvrdit Zigbee (Trådfri ano) + typ (bílá / RGB)
-  - [ ] Sonoff žárovka: Zigbee, nebo Wi-Fi? (podle toho most Z2M vs. ESPHome/LAN)
-  - [ ] Další značky žárovek: podpora v Zigbee2MQTT (zigbee2mqtt.io → *Supported devices*)
+  - [ ] Další značky žárovek: pokud Zigbee → podpora v Zigbee2MQTT (zigbee2mqtt.io → *Supported devices*)
 - [ ] Kávovar Jura: potvrdit model a že jde o **jednotlačítkové** ovládání (viz [`03`](03-kavovar-jura.md))
+- [ ] **Tado v3+**: rozhodnout HomeKit (lokálně) vs. cloud + zjistit HomeKit kód (viz [`07`](07-termostat-tado.md))
 - [ ] Nakoupit chybějící HW: hub, Zigbee dongle (+ USB prodlužka), Shelly Plus 1, (volitelně měřicí zásuvka)
 - [ ] Rozhodnout orientaci nástěnného iPadu (na šířku doporučeno)
 
@@ -34,16 +36,22 @@ ze zadání (analýza → server → párování → UI a logika).
 
 ## Fáze 3 — Napárování zařízení
 
-### Zigbee žárovky (IKEA + Sonoff + další)
+### Zigbee žárovky (IKEA Trådfri + další Zigbee značky)
 - [ ] Zasunout Zigbee dongle (přes USB prodlužku), v Zigbee2MQTT nastavit port + adaptér
 - [ ] Zapnout „Permit join", spárovat žárovky, pojmenovat je (`obyvak_hlavni`, …)
 - [ ] **Vypnout „Permit join"** po dokončení
 - [ ] Zálohovat **Zigbee network key** (Z2M → Settings)
 
-### Sonoff LED pásky (Wi-Fi)
-- [ ] Cesta A (doporučeno): **ESPHome** — vytvořit konfiguraci, flashnout, ověřit auto-discovery v HA
-- [ ] Cesta B (bez flashe): HACS **SonoffLAN**, přihlásit eWeLink, přepnout na LAN mód
+### Sonoff Wi-Fi (LED pásek `1001100b5d` + žárovka B02-BL-A60)
+- [ ] HACS **SonoffLAN**, přihlásit eWeLink, přepnout integraci na režim **`local`**
+- [ ] Najít pásek podle deviceid `1001100b5d` a žárovku B02-BL-A60, pojmenovat entity
+- [ ] (Volitelně u pásku) pokud LAN mód nestačí a jde flashnout → **ESPHome**
 - [ ] Ověřit, že vzniklé entity `light.*` reagují bez prodlevy
+
+### Termostat Tado v3+
+- [ ] Přidat přes **HomeKit Device** (lokálně) — zadat HomeKit párovací kód (viz [`07`](07-termostat-tado.md))
+- [ ] Pojmenovat zóny `climate.<mistnost>`, přiřadit k oblastem
+- [ ] (Fallback) případně oficiální **Tado** cloud integrace
 
 ### Kávovar (relé)
 - [ ] ⚠️ **Elektrikář** zapojí Shelly Plus 1 (bezpotenciálový kontakt) paralelně k tlačítku (odpojené od sítě!)
