@@ -32,6 +32,7 @@ nástěnném iPadu (kiosk).
 | [`06-postup-instalace.md`](06-postup-instalace.md) | Krok-za-krokem checklist celého nasazení |
 | [`07-termostat-tado.md`](07-termostat-tado.md) | Tado v3+ (⏸️ **odloženo** — mimo aktuální rozsah) |
 | [`08-vlastni-aplikace.md`](08-vlastni-aplikace.md) | **Vlastní PWA místo Lovelace** — architektura, varianty (HA-headless vs. MQTT DIY), bezpečnost, fáze buildu |
+| [`app/`](app/) | 🚀 **Kód vlastní PWA** (React+TS+Vite) — připojení na HA, demo režim, karty světel/kávovaru/scén. Viz [`app/README.md`](app/README.md) |
 
 ## Doporučený nákupní seznam (nad rámec toho, co už máš)
 

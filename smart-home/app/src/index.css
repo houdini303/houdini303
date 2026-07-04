@@ -1,0 +1,449 @@
+:root {
+  --bg: #0b0f17;
+  --bg-elev: #141a26;
+  --bg-card: #1a2130;
+  --bg-card-on: #232c40;
+  --border: #2a3446;
+  --text: #eef2f8;
+  --text-dim: #93a0b5;
+  --accent: #ffb347;
+  --on-glow: 0 0 0 1px rgba(255, 179, 71, 0.35), 0 6px 20px rgba(255, 179, 71, 0.12);
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.app {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* ---------- Header ---------- */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  padding-top: calc(14px + env(safe-area-inset-top));
+  background: rgba(11, 15, 23, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.header__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.header__logo {
+  font-size: 22px;
+  color: var(--accent);
+}
+
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--text-dim);
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--bg-card);
+}
+
+.status__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status--connected {
+  color: #5ce39a;
+}
+.status--demo {
+  color: #ffb347;
+}
+.status--connecting {
+  color: #5cc8ff;
+}
+.status--error {
+  color: #ff6b6b;
+}
+
+.icon-btn {
+  font-size: 20px;
+  padding: 6px 8px;
+  border-radius: 10px;
+}
+.icon-btn:active {
+  background: var(--bg-card);
+}
+
+/* ---------- Layout ---------- */
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.block__title {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+
+/* ---------- Scény ---------- */
+.scenes {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+.scenes::-webkit-scrollbar {
+  display: none;
+}
+
+.scene {
+  --accent: var(--accent);
+  flex: 0 0 auto;
+  min-width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  transition: transform 0.08s ease;
+}
+.scene:active {
+  transform: scale(0.96);
+}
+.scene__icon {
+  font-size: 26px;
+  color: var(--accent);
+}
+.scene__name {
+  font-weight: 600;
+}
+
+/* ---------- Kávovar ---------- */
+.coffee {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 28px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #3a2a1c, #24170d);
+  border: 1px solid #4a3826;
+  transition: transform 0.08s ease, filter 0.2s ease;
+}
+.coffee:active {
+  transform: scale(0.98);
+}
+.coffee.is-busy {
+  filter: brightness(1.25);
+}
+.coffee__icon {
+  font-size: 40px;
+}
+.coffee__label {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* ---------- Místnosti / světla ---------- */
+.rooms {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.room__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.room__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+.room__master {
+  font-size: 13px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+.room__master.is-on {
+  color: var(--accent);
+  border-color: rgba(255, 179, 71, 0.5);
+}
+
+.room__lights {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.light-card {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.light-card.is-on {
+  background: var(--bg-card-on);
+  box-shadow: var(--on-glow);
+}
+
+.light-card__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+}
+.light-card__dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  flex: 0 0 auto;
+}
+.light-card__name {
+  font-weight: 600;
+  flex: 1;
+}
+.light-card__state {
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+.light-card__hint {
+  font-size: 12px;
+  color: #ff8a8a;
+}
+.light-card--missing {
+  opacity: 0.6;
+}
+
+/* Slider jasu */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--border);
+  outline: none;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--bg-card-on);
+}
+.slider::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  border: 3px solid var(--bg-card-on);
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* Barevné vzorky */
+.swatches {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.swatch {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+}
+.swatch:active {
+  transform: scale(0.9);
+}
+
+.ct-row {
+  display: flex;
+  gap: 8px;
+}
+.ct-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+.ct-btn:active {
+  background: var(--bg-card-on);
+  color: var(--text);
+}
+
+/* ---------- Nastavení (modal) ---------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 100;
+}
+.modal {
+  width: 100%;
+  max-width: 440px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.modal__title {
+  margin: 0;
+  font-size: 18px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--text-dim);
+}
+.field input[type='url'],
+.field input[type='password'] {
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 15px;
+}
+.field input:disabled {
+  opacity: 0.4;
+}
+.field--check {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+}
+.field__error {
+  margin: 0;
+  color: #ff8a8a;
+  font-size: 13px;
+}
+.modal__hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.btn {
+  padding: 11px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+.btn--ghost {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+.btn--primary {
+  background: var(--accent);
+  color: #1a1206;
+}
+
+/* ---------- Responsivní: iPad na šířku / desktop ---------- */
+@media (min-width: 720px) {
+  .rooms {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    align-items: start;
+  }
+}
+
+/* Landscape (nástěnný iPad) — scény a světla využijí šířku */
+@media (orientation: landscape) and (min-width: 900px) {
+  .main {
+    padding: 24px 32px;
+  }
+  .room__lights {
+    grid-template-columns: 1fr;
+  }
+}
