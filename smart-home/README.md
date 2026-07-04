@@ -30,7 +30,8 @@ nástěnném iPadu (kiosk).
 | [`04-dashboard-ipad.md`](04-dashboard-ipad.md) | Lovelace layout pro iPad, karty místností, kiosk mód |
 | [`05-automatizace-sceny.md`](05-automatizace-sceny.md) | Scény ("Večerní relax", "Vše vypnout"), ranní kávovar 7:00 |
 | [`06-postup-instalace.md`](06-postup-instalace.md) | Krok-za-krokem checklist celého nasazení |
-| [`07-termostat-tado.md`](07-termostat-tado.md) | Tado v3+ lokálně přes HomeKit, topné zóny, scény a automatizace |
+| [`07-termostat-tado.md`](07-termostat-tado.md) | Tado v3+ (⏸️ **odloženo** — mimo aktuální rozsah) |
+| [`08-vlastni-aplikace.md`](08-vlastni-aplikace.md) | **Vlastní PWA místo Lovelace** — architektura, varianty (HA-headless vs. MQTT DIY), bezpečnost, fáze buildu |
 
 ## Doporučený nákupní seznam (nad rámec toho, co už máš)
 
