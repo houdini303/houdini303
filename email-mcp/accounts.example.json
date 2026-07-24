@@ -1,0 +1,16 @@
+{
+  "_comment": "Zkopíruj tento soubor na accounts.json a doplň hesla. accounts.json je v .gitignore a NIKDY se necommituje. Hesla ideálně vytvoř jako aplikační/mailová hesla ve Websupport administraci.",
+  "defaults": {
+    "host": "imap.websupport.cz",
+    "port": 993,
+    "secure": true
+  },
+  "accounts": [
+    { "email": "filip@weelet.cz", "user": "filip@weelet.cz", "password": "" },
+    { "email": "info@weelet.cz", "user": "info@weelet.cz", "password": "" },
+    { "email": "develop@weelet.cz", "user": "develop@weelet.cz", "password": "" },
+    { "email": "socials@weelet.cz", "user": "socials@weelet.cz", "password": "" },
+    { "email": "hudetz@revvit.cz", "user": "hudetz@revvit.cz", "password": "" },
+    { "email": "info@revvit.cz", "user": "info@revvit.cz", "password": "" }
+  ]
+}

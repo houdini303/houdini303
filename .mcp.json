@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "email-inbox": {
+      "command": "node",
+      "args": ["email-mcp/server.mjs"],
+      "env": {
+        "EMAIL_ACCOUNTS_FILE": "email-mcp/accounts.json"
+      }
+    }
+  }
+}

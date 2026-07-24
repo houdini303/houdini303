@@ -1,0 +1,5 @@
+node_modules/
+accounts.json
+.env
+.env.local
+*.log
