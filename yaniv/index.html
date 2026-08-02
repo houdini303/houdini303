@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#0d1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Yaniv – počítadlo</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #0d1117; color: #e6edf3;
+    padding: max(12px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom));
+    max-width: 480px; margin: 0 auto;
+  }
+  h1 { font-size: 22px; text-align: center; margin: 8px 0 16px; letter-spacing: 2px; }
+  h1 span { color: #58a6ff; }
+
+  .player {
+    display: flex; align-items: center; gap: 10px;
+    background: #161b22; border: 1px solid #30363d; border-radius: 12px;
+    padding: 12px; margin-bottom: 8px;
+  }
+  .player.out { opacity: .45; }
+  .player .name { flex: 1; font-size: 17px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .player .total { font-size: 22px; font-weight: 800; min-width: 44px; text-align: right; font-variant-numeric: tabular-nums; }
+  .player .total.warn { color: #f0883e; }
+  .player .total.dead { color: #f85149; }
+  .player input {
+    width: 72px; font-size: 18px; text-align: center;
+    background: #0d1117; color: #e6edf3;
+    border: 1px solid #30363d; border-radius: 8px; padding: 10px 4px;
+  }
+  .player .outLabel { font-size: 13px; font-weight: 700; color: #f85149; letter-spacing: 1px; }
+
+  button {
+    font-size: 17px; font-weight: 700; border: none; border-radius: 12px;
+    padding: 14px; width: 100%; margin-top: 8px; cursor: pointer; color: #fff;
+  }
+  .primary { background: #238636; }
+  .secondary { background: #21262d; color: #c9d1d9; font-weight: 500; font-size: 15px; padding: 12px; }
+  .row { display: flex; gap: 8px; }
+  .row button { margin-top: 8px; }
+  button:disabled { opacity: .4; }
+
+  #addForm { display: flex; gap: 8px; margin-bottom: 8px; }
+  #addForm input {
+    flex: 1; font-size: 17px; background: #161b22; color: #e6edf3;
+    border: 1px solid #30363d; border-radius: 12px; padding: 12px;
+  }
+  #addForm button { width: auto; margin: 0; padding: 12px 18px; background: #1f6feb; }
+
+  .hint { text-align: center; color: #8b949e; font-size: 13px; margin: 12px 0; }
+
+  /* ---------- BUSTED overlay (GTA style) ---------- */
+  #busted {
+    position: fixed; inset: 0; z-index: 100; display: none;
+    align-items: center; justify-content: center; flex-direction: column;
+    background: rgba(0,0,0,.82);
+  }
+  #busted.show { display: flex; }
+  body.grayscale #app { filter: grayscale(1) brightness(.6); transition: filter .4s; }
+  #bustedWord { display: flex; gap: 2px; }
+  #bustedWord .l {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 15vw; font-weight: 800; letter-spacing: 2px;
+    background: linear-gradient(#cfe3ff 0%, #7fb2ff 45%, #1e5bbf 55%, #0a2f6b 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    -webkit-text-stroke: 1.5px #061a3a;
+    opacity: 0; transform: scale(3);
+  }
+  #bustedWord .l.stamp { animation: stamp .18s ease-out forwards; }
+  @keyframes stamp {
+    from { opacity: 0; transform: scale(3); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  #bustedWho { margin-top: 4vh; font-size: 20px; font-weight: 700; color: #fff; text-align: center; padding: 0 20px; }
+  #bustedClose { margin-top: 6vh; width: auto; padding: 12px 32px; background: #21262d; color: #c9d1d9; }
+  @keyframes shake {
+    0%,100% { transform: translate(0,0); }
+    20% { transform: translate(-8px,4px); } 40% { transform: translate(8px,-4px); }
+    60% { transform: translate(-6px,-3px); } 80% { transform: translate(6px,3px); }
+  }
+  #busted.shake { animation: shake .35s linear; }
+</style>
+</head>
+<body>
+<div id="app">
+  <h1>YANIV <span>počítadlo</span></h1>
+
+  <form id="addForm">
+    <input id="newName" placeholder="Jméno hráče" autocomplete="off" maxlength="16">
+    <button type="submit">+</button>
+  </form>
+
+  <div id="players"></div>
+
+  <p class="hint" id="hintEl">Přidej hráče, každé kolo zapiš body a ulož. Kdo dosáhne 100, je BUSTED.</p>
+
+  <button class="primary" id="saveRound">Zapsat kolo</button>
+  <div class="row">
+    <button class="secondary" id="undo">↩ Vrátit kolo</button>
+    <button class="secondary" id="reset">Nová hra</button>
+  </div>
+</div>
+
+<div id="busted">
+  <div id="bustedWord"></div>
+  <div id="bustedWho"></div>
+  <button id="bustedClose">OK</button>
+</div>
+
+<script>
+const LIMIT = 100;
+let state = JSON.parse(localStorage.getItem('yaniv') || 'null') || { players: [], rounds: [] };
+
+const save = () => localStorage.setItem('yaniv', JSON.stringify(state));
+const totalOf = p => state.rounds.reduce((s, r) => s + (r[p.id] || 0), 0);
+const $ = id => document.getElementById(id);
+
+function render() {
+  const box = $('players');
+  box.innerHTML = '';
+  for (const p of state.players) {
+    const total = totalOf(p);
+    const out = total >= LIMIT;
+    const div = document.createElement('div');
+    div.className = 'player' + (out ? ' out' : '');
+    div.innerHTML = `
+      <div class="name">${p.name.replace(/[<>&]/g, '')}</div>
+      <div class="total ${total >= LIMIT ? 'dead' : total >= 80 ? 'warn' : ''}">${total}</div>
+      ${out ? '<div class="outLabel">BUSTED</div>'
+            : `<input type="number" inputmode="numeric" placeholder="0" data-id="${p.id}">`}
+    `;
+    box.appendChild(div);
+  }
+  $('saveRound').disabled = state.players.filter(p => totalOf(p) < LIMIT).length === 0;
+  $('undo').disabled = state.rounds.length === 0;
+  $('hintEl').style.display = state.players.length ? 'none' : '';
+}
+
+$('addForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = $('newName').value.trim();
+  if (!name) return;
+  state.players.push({ id: Date.now() + '' + Math.random().toString(36).slice(2, 6), name });
+  $('newName').value = '';
+  save(); render();
+});
+
+$('saveRound').addEventListener('click', () => {
+  const round = {};
+  let any = false;
+  document.querySelectorAll('#players input').forEach(inp => {
+    const v = parseInt(inp.value, 10);
+    if (!isNaN(v) && v !== 0) { round[inp.dataset.id] = v; any = true; }
+  });
+  if (!any) return;
+
+  const before = Object.fromEntries(state.players.map(p => [p.id, totalOf(p)]));
+  state.rounds.push(round);
+  save(); render();
+
+  const justBusted = state.players.filter(p => before[p.id] < LIMIT && totalOf(p) >= LIMIT);
+  if (justBusted.length) showBusted(justBusted.map(p => p.name));
+});
+
+$('undo').addEventListener('click', () => { state.rounds.pop(); save(); render(); });
+
+$('reset').addEventListener('click', () => {
+  if (!confirm('Opravdu začít novou hru? Skóre se vynuluje.')) return;
+  state.rounds = [];
+  save(); render();
+});
+
+/* ---------- BUSTED efekt ---------- */
+function showBusted(names) {
+  const overlay = $('busted');
+  const word = $('bustedWord');
+  word.innerHTML = '';
+  $('bustedWho').textContent = names.join(' + ') + (names.length > 1 ? ' jsou' : ' je') + ' venku! (100+)';
+  overlay.classList.add('show');
+  document.body.classList.add('grayscale');
+  if (navigator.vibrate) navigator.vibrate([120, 60, 120, 60, 300]);
+
+  playSound();
+
+  'BUSTED'.split('').forEach((ch, i) => {
+    const l = document.createElement('span');
+    l.className = 'l';
+    l.textContent = ch;
+    word.appendChild(l);
+    setTimeout(() => {
+      l.classList.add('stamp');
+      overlay.classList.remove('shake');
+      void overlay.offsetWidth;
+      overlay.classList.add('shake');
+    }, 250 + i * 130);
+  });
+}
+
+$('bustedClose').addEventListener('click', () => {
+  $('busted').classList.remove('show');
+  document.body.classList.remove('grayscale');
+});
+
+/* Zvuk: použije busted.mp3, pokud leží vedle tohoto souboru; jinak syntéza přes Web Audio. */
+function playSound() {
+  const mp3 = new Audio('busted.mp3');
+  mp3.addEventListener('error', synthBusted, { once: true });
+  mp3.play().catch(() => {});
+}
+
+function synthBusted() {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  // úder (thud) pro každé písmeno
+  for (let i = 0; i < 6; i++) {
+    const t = ctx.currentTime + 0.25 + i * 0.13;
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = 'square';
+    o.frequency.setValueAtTime(90, t);
+    o.frequency.exponentialRampToValueAtTime(45, t + 0.12);
+    g.gain.setValueAtTime(0.5, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.13);
+    o.connect(g).connect(ctx.destination);
+    o.start(t); o.stop(t + 0.14);
+  }
+  // závěrečný sestupný "fail" tón
+  const t2 = ctx.currentTime + 0.25 + 6 * 0.13 + 0.1;
+  const o2 = ctx.createOscillator();
+  const g2 = ctx.createGain();
+  o2.type = 'sawtooth';
+  o2.frequency.setValueAtTime(220, t2);
+  o2.frequency.exponentialRampToValueAtTime(70, t2 + 0.9);
+  g2.gain.setValueAtTime(0.35, t2);
+  g2.gain.exponentialRampToValueAtTime(0.001, t2 + 1.0);
+  o2.connect(g2).connect(ctx.destination);
+  o2.start(t2); o2.stop(t2 + 1.05);
+}
+
+render();
+</script>
+</body>
+</html>
