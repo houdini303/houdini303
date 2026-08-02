@@ -55,18 +55,28 @@
 
   .hint { text-align: center; color: #8b949e; font-size: 13px; margin: 12px 0; }
 
-  /* ---------- BUSTED overlay (GTA style) ---------- */
+  /* ---------- BUSTED overlay (GTA San Andreas style) ---------- */
   #busted {
     position: fixed; inset: 0; z-index: 100; display: none;
     align-items: center; justify-content: center; flex-direction: column;
-    background: rgba(0,0,0,.82);
+    background: rgba(0,0,0,.88);
   }
   #busted.show { display: flex; }
   body.grayscale #app { filter: grayscale(1) brightness(.6); transition: filter .4s; }
-  #bustedWord { display: flex; gap: 2px; }
+
+  #chase {
+    width: min(96vw, 460px); height: 150px;
+    image-rendering: pixelated;
+  }
+
+  #bustedWord {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 2px; row-gap: 0; padding: 0 8px; margin-top: 2vh;
+  }
+  #bustedWord .sp { width: .35em; }
   #bustedWord .l {
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 15vw; font-weight: 800; letter-spacing: 2px;
+    font-size: min(11vw, 56px); font-weight: 800; letter-spacing: 1px;
     background: linear-gradient(#cfe3ff 0%, #7fb2ff 45%, #1e5bbf 55%, #0a2f6b 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
     -webkit-text-stroke: 1.5px #061a3a;
@@ -77,14 +87,18 @@
     from { opacity: 0; transform: scale(3); }
     to   { opacity: 1; transform: scale(1); }
   }
-  #bustedWho { margin-top: 4vh; font-size: 20px; font-weight: 700; color: #fff; text-align: center; padding: 0 20px; }
-  #bustedClose { margin-top: 6vh; width: auto; padding: 12px 32px; background: #21262d; color: #c9d1d9; }
+  #bustedWho { margin-top: 3vh; font-size: 20px; font-weight: 700; color: #fff; text-align: center; padding: 0 20px; }
+  #bustedClose { margin-top: 4vh; width: auto; padding: 12px 32px; background: #21262d; color: #c9d1d9; }
   @keyframes shake {
     0%,100% { transform: translate(0,0); }
     20% { transform: translate(-8px,4px); } 40% { transform: translate(8px,-4px); }
     60% { transform: translate(-6px,-3px); } 80% { transform: translate(6px,3px); }
   }
   #busted.shake { animation: shake .35s linear; }
+  @media (prefers-reduced-motion: reduce) {
+    #bustedWord .l.stamp { animation-duration: .01s; }
+    #busted.shake { animation: none; }
+  }
 </style>
 </head>
 <body>
@@ -108,6 +122,7 @@
 </div>
 
 <div id="busted">
+  <canvas id="chase" width="460" height="150"></canvas>
   <div id="bustedWord"></div>
   <div id="bustedWho"></div>
   <button id="bustedClose">OK</button>
@@ -115,6 +130,7 @@
 
 <script>
 const LIMIT = 100;
+const BUSTED_TEXT = 'BUSTED, VOLE, BUSTED';
 let state = JSON.parse(localStorage.getItem('yaniv') || 'null') || { players: [], rounds: [] };
 
 const save = () => localStorage.setItem('yaniv', JSON.stringify(state));
@@ -176,7 +192,12 @@ $('reset').addEventListener('click', () => {
   save(); render();
 });
 
-/* ---------- BUSTED efekt ---------- */
+/* ================= BUSTED sekvence =================
+   1. honička: CJ na Sanchezi ujíždí, policajt ho dojede a odstaví
+   2. razítkování textu "BUSTED, VOLE, BUSTED" (SA styl)          */
+const CHASE_MS = 2600;
+let chaseRAF = null, chaseStart = 0;
+
 function showBusted(names) {
   const overlay = $('busted');
   const word = $('bustedWord');
@@ -186,28 +207,130 @@ function showBusted(names) {
   document.body.classList.add('grayscale');
   if (navigator.vibrate) navigator.vibrate([120, 60, 120, 60, 300]);
 
+  startChase();
   playSound();
 
-  'BUSTED'.split('').forEach((ch, i) => {
+  const letters = BUSTED_TEXT.split('');
+  let delay = CHASE_MS;
+  for (const ch of letters) {
     const l = document.createElement('span');
+    if (ch === ' ') { l.className = 'sp'; word.appendChild(l); continue; }
     l.className = 'l';
     l.textContent = ch;
     word.appendChild(l);
+    const d = delay;
     setTimeout(() => {
       l.classList.add('stamp');
       overlay.classList.remove('shake');
       void overlay.offsetWidth;
       overlay.classList.add('shake');
-    }, 250 + i * 130);
-  });
+    }, d);
+    delay += 110;
+  }
 }
 
 $('bustedClose').addEventListener('click', () => {
   $('busted').classList.remove('show');
   document.body.classList.remove('grayscale');
+  if (chaseRAF) { cancelAnimationFrame(chaseRAF); chaseRAF = null; }
 });
 
-/* Zvuk: použije busted.mp3, pokud leží vedle tohoto souboru; jinak syntéza přes Web Audio. */
+/* ---------- pixel-art honička (vlastní kresba, žádné herní assety) ---------- */
+function startChase() {
+  const cv = $('chase');
+  const ctx = cv.getContext('2d');
+  chaseStart = performance.now();
+  if (chaseRAF) cancelAnimationFrame(chaseRAF);
+
+  const W = cv.width, H = cv.height, GROUND = H - 22;
+
+  function drawWheel(x, y, r, spin) {
+    ctx.fillStyle = '#1a1a1a';
+    ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill();
+    ctx.fillStyle = '#555';
+    ctx.beginPath(); ctx.arc(x, y, r * .45, 0, 7); ctx.fill();
+    ctx.strokeStyle = '#888'; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(x - Math.cos(spin) * r * .8, y - Math.sin(spin) * r * .8);
+    ctx.lineTo(x + Math.cos(spin) * r * .8, y + Math.sin(spin) * r * .8);
+    ctx.stroke();
+  }
+
+  // CJ na Sanchezi (červenobílá krosová motorka, jezdec: bílé tílko, džíny, zelený šátek)
+  function drawBike(x, y, t) {
+    const spin = t / 60;
+    drawWheel(x, y, 11, spin);        // zadní kolo
+    drawWheel(x + 46, y, 11, spin);   // přední kolo
+    ctx.fillStyle = '#c62828';                       // rám Sanchez
+    ctx.fillRect(x + 8, y - 18, 30, 7);
+    ctx.fillStyle = '#eee';                          // blatníky
+    ctx.fillRect(x - 6, y - 20, 14, 4);
+    ctx.fillRect(x + 40, y - 22, 14, 4);
+    ctx.strokeStyle = '#999'; ctx.lineWidth = 3;     // vidlice + řídítka
+    ctx.beginPath(); ctx.moveTo(x + 46, y); ctx.lineTo(x + 42, y - 26); ctx.stroke();
+    ctx.strokeStyle = '#333';
+    ctx.beginPath(); ctx.moveTo(x + 42, y - 26); ctx.lineTo(x + 36, y - 30); ctx.stroke();
+    // jezdec
+    ctx.fillStyle = '#1e3a8a'; ctx.fillRect(x + 12, y - 30, 9, 14);   // džíny
+    ctx.fillStyle = '#6d4c2f'; ctx.fillRect(x + 12, y - 16, 9, 6);    // boty
+    ctx.fillStyle = '#f5f5f5'; ctx.fillRect(x + 13, y - 44, 10, 15);  // bílé tílko
+    ctx.fillStyle = '#7b4a24';                                        // ruce k řídítkům
+    ctx.fillRect(x + 21, y - 40, 15, 4);
+    ctx.fillStyle = '#7b4a24'; ctx.fillRect(x + 14, y - 54, 9, 10);   // hlava
+    ctx.fillStyle = '#2e7d32'; ctx.fillRect(x + 13, y - 56, 11, 4);   // zelený šátek
+  }
+
+  // policejní auto
+  function drawCop(x, y, t) {
+    const spin = t / 60;
+    ctx.fillStyle = '#111'; ctx.fillRect(x, y - 20, 78, 12);          // spodek
+    ctx.fillStyle = '#eee'; ctx.fillRect(x + 10, y - 34, 48, 15);     // kabina
+    ctx.fillStyle = '#9ecbff'; ctx.fillRect(x + 16, y - 31, 16, 9);   // okna
+    ctx.fillRect(x + 38, y - 31, 14, 9);
+    ctx.fillStyle = '#000'; ctx.font = 'bold 8px sans-serif';
+    ctx.fillText('POLICIE', x + 18, y - 10);
+    const blue = Math.floor(t / 120) % 2 === 0;                       // maják
+    ctx.fillStyle = blue ? '#2979ff' : '#d50000';
+    ctx.fillRect(x + 24, y - 40, 8, 6);
+    ctx.fillStyle = blue ? '#d50000' : '#2979ff';
+    ctx.fillRect(x + 34, y - 40, 8, 6);
+    drawWheel(x + 16, y, 9, spin);
+    drawWheel(x + 60, y, 9, spin);
+  }
+
+  function frame(now) {
+    const t = now - chaseStart;
+    ctx.clearRect(0, 0, W, H);
+
+    ctx.fillStyle = '#333'; ctx.fillRect(0, GROUND + 8, W, 4);        // silnice
+    ctx.fillStyle = '#666';
+    for (let i = 0; i < 8; i++) ctx.fillRect((i * 70 - (t / 6) % 70), GROUND + 9, 30, 2);
+
+    // fáze honičky: CJ ujíždí, policajt ho dojede, oba zastaví
+    const p = Math.min(t / CHASE_MS, 1);
+    const ease = p < .8 ? p / .8 : 1;
+    const stopEase = 1 - Math.pow(1 - ease, 2);
+    const bikeX = -70 + stopEase * (W * .62 + 70);
+    const gap = 130 - Math.min(t / CHASE_MS, 1) * 40;                 // policajt se přibližuje
+    const bounce = p < .95 ? Math.sin(t / 50) * 2 : 0;
+
+    drawBike(bikeX, GROUND + bounce, p < .95 ? t : 0);
+    drawCop(bikeX - gap, GROUND + (p < .95 ? Math.sin(t / 60) * 1.5 : 0), t);
+
+    if (p >= 1) {                                                     // odstavený: ruce vzhůru
+      ctx.fillStyle = '#7b4a24';
+      ctx.fillRect(bikeX + 8, GROUND - 52, 4, 12);
+      ctx.fillRect(bikeX + 24, GROUND - 52, 4, 12);
+    }
+
+    if ($('busted').classList.contains('show')) chaseRAF = requestAnimationFrame(frame);
+  }
+  chaseRAF = requestAnimationFrame(frame);
+}
+
+/* ---------- zvuk ----------
+   Zkusí busted.mp3 (vlastní soubor vedle index.html), jinak syntéza:
+   policejní siréna během honičky + orchestrální údery à la San Andreas. */
 function playSound() {
   const mp3 = new Audio('busted.mp3');
   mp3.addEventListener('error', synthBusted, { once: true });
@@ -216,30 +339,48 @@ function playSound() {
 
 function synthBusted() {
   const ctx = new (window.AudioContext || window.webkitAudioContext)();
-  // úder (thud) pro každé písmeno
-  for (let i = 0; i < 6; i++) {
-    const t = ctx.currentTime + 0.25 + i * 0.13;
-    const o = ctx.createOscillator();
-    const g = ctx.createGain();
+  const t0 = ctx.currentTime;
+
+  // siréna během honičky
+  const sir = ctx.createOscillator();
+  const sirG = ctx.createGain();
+  sir.type = 'triangle';
+  const sirEnd = t0 + CHASE_MS / 1000;
+  for (let t = 0; t < CHASE_MS / 1000; t += 0.45) {
+    sir.frequency.setValueAtTime(660, t0 + t);
+    sir.frequency.linearRampToValueAtTime(920, t0 + t + 0.22);
+    sir.frequency.linearRampToValueAtTime(660, t0 + t + 0.45);
+  }
+  sirG.gain.setValueAtTime(0.12, t0);
+  sirG.gain.linearRampToValueAtTime(0.001, sirEnd);
+  sir.connect(sirG).connect(ctx.destination);
+  sir.start(t0); sir.stop(sirEnd);
+
+  // orchestrální dvojúder à la SA hned po zastavení
+  [[0, 65], [0.28, 49]].forEach(([dt, f]) => {
+    const t = sirEnd + 0.05 + dt;
+    const o = ctx.createOscillator(), o2 = ctx.createOscillator(), g = ctx.createGain();
+    o.type = 'sawtooth'; o.frequency.setValueAtTime(f, t);
+    o2.type = 'square'; o2.frequency.setValueAtTime(f * 2, t);
+    g.gain.setValueAtTime(0.55, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.6);
+    o.connect(g); o2.connect(g); g.connect(ctx.destination);
+    o.start(t); o.stop(t + 0.62); o2.start(t); o2.stop(t + 0.62);
+  });
+
+  // úder pro každé razítknuté písmeno
+  const letters = BUSTED_TEXT.replace(/[^A-Z]/g, '').length;
+  for (let i = 0; i < letters; i++) {
+    const t = sirEnd + i * 0.11;
+    const o = ctx.createOscillator(), g = ctx.createGain();
     o.type = 'square';
     o.frequency.setValueAtTime(90, t);
-    o.frequency.exponentialRampToValueAtTime(45, t + 0.12);
-    g.gain.setValueAtTime(0.5, t);
-    g.gain.exponentialRampToValueAtTime(0.001, t + 0.13);
+    o.frequency.exponentialRampToValueAtTime(45, t + 0.1);
+    g.gain.setValueAtTime(0.3, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.11);
     o.connect(g).connect(ctx.destination);
-    o.start(t); o.stop(t + 0.14);
+    o.start(t); o.stop(t + 0.12);
   }
-  // závěrečný sestupný "fail" tón
-  const t2 = ctx.currentTime + 0.25 + 6 * 0.13 + 0.1;
-  const o2 = ctx.createOscillator();
-  const g2 = ctx.createGain();
-  o2.type = 'sawtooth';
-  o2.frequency.setValueAtTime(220, t2);
-  o2.frequency.exponentialRampToValueAtTime(70, t2 + 0.9);
-  g2.gain.setValueAtTime(0.35, t2);
-  g2.gain.exponentialRampToValueAtTime(0.001, t2 + 1.0);
-  o2.connect(g2).connect(ctx.destination);
-  o2.start(t2); o2.stop(t2 + 1.05);
 }
 
 render();
