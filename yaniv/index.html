@@ -105,10 +105,10 @@
 <div id="app">
   <h1>YANIV <span>počítadlo</span></h1>
 
-  <form id="addForm">
-    <input id="newName" placeholder="Jméno hráče" autocomplete="off" maxlength="16">
-    <button type="submit">+</button>
-  </form>
+  <div id="addForm">
+    <input id="newName" placeholder="Jméno hráče" autocomplete="off" maxlength="16" enterkeyhint="done">
+    <button type="button" id="addBtn">+</button>
+  </div>
 
   <div id="players"></div>
 
@@ -131,9 +131,15 @@
 <script>
 const LIMIT = 100;
 const BUSTED_TEXT = 'BUSTED, VOLE, BUSTED';
-let state = JSON.parse(localStorage.getItem('yaniv') || 'null') || { players: [], rounds: [] };
+/* localStorage může být v sandboxu (Artifact/iframe) zablokovaný — pak jen v paměti */
+const store = {
+  get() { try { return localStorage.getItem('yaniv'); } catch (e) { return null; } },
+  set(v) { try { localStorage.setItem('yaniv', v); } catch (e) {} }
+};
+let state = { players: [], rounds: [] };
+try { state = JSON.parse(store.get() || 'null') || state; } catch (e) {}
 
-const save = () => localStorage.setItem('yaniv', JSON.stringify(state));
+const save = () => store.set(JSON.stringify(state));
 const totalOf = p => state.rounds.reduce((s, r) => s + (r[p.id] || 0), 0);
 const $ = id => document.getElementById(id);
 
@@ -158,13 +164,16 @@ function render() {
   $('hintEl').style.display = state.players.length ? 'none' : '';
 }
 
-$('addForm').addEventListener('submit', e => {
-  e.preventDefault();
+function addPlayer() {
   const name = $('newName').value.trim();
   if (!name) return;
   state.players.push({ id: Date.now() + '' + Math.random().toString(36).slice(2, 6), name });
   $('newName').value = '';
   save(); render();
+}
+$('addBtn').addEventListener('click', addPlayer);
+$('newName').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); addPlayer(); }
 });
 
 $('saveRound').addEventListener('click', () => {
@@ -186,10 +195,21 @@ $('saveRound').addEventListener('click', () => {
 
 $('undo').addEventListener('click', () => { state.rounds.pop(); save(); render(); });
 
+/* confirm() bývá v sandboxu blokovaný — potvrzení dvojím ťuknutím */
+let resetArmed = null;
 $('reset').addEventListener('click', () => {
-  if (!confirm('Opravdu začít novou hru? Skóre se vynuluje.')) return;
-  state.rounds = [];
-  save(); render();
+  if (resetArmed) {
+    clearTimeout(resetArmed); resetArmed = null;
+    $('reset').textContent = 'Nová hra';
+    state.rounds = [];
+    save(); render();
+    return;
+  }
+  $('reset').textContent = 'Opravdu vynulovat?';
+  resetArmed = setTimeout(() => {
+    resetArmed = null;
+    $('reset').textContent = 'Nová hra';
+  }, 3000);
 });
 
 /* ================= BUSTED sekvence =================
