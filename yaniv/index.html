@@ -6,6 +6,9 @@
 <meta name="theme-color" content="#0d1117">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
 <title>Yaniv – počítadlo</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -20,21 +23,29 @@
   h1 span { color: #58a6ff; }
 
   .player {
-    display: flex; align-items: center; gap: 10px;
+    display: flex; align-items: center; gap: 8px;
     background: #161b22; border: 1px solid #30363d; border-radius: 12px;
-    padding: 12px; margin-bottom: 8px;
+    padding: 10px 12px; margin-bottom: 8px;
   }
   .player.out { opacity: .45; }
-  .player .name { flex: 1; font-size: 17px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .player .total { font-size: 22px; font-weight: 800; min-width: 44px; text-align: right; font-variant-numeric: tabular-nums; }
+  .player .name { flex: 1; font-size: 16px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  .player .total { font-size: 20px; font-weight: 800; text-align: right; font-variant-numeric: tabular-nums; }
   .player .total.warn { color: #f0883e; }
   .player .total.dead { color: #f85149; }
   .player input {
-    width: 72px; font-size: 18px; text-align: center;
+    width: 58px; font-size: 17px; text-align: center;
     background: #0d1117; color: #e6edf3;
-    border: 1px solid #30363d; border-radius: 8px; padding: 10px 4px;
+    border: 1px solid #30363d; border-radius: 8px; padding: 9px 2px;
   }
-  .player .outLabel { font-size: 13px; font-weight: 700; color: #f85149; letter-spacing: 1px; }
+  .player .outLabel { font-size: 12px; font-weight: 700; color: #f85149; letter-spacing: 1px; }
+
+  .chip {
+    font-size: 12px; font-weight: 700; letter-spacing: .5px;
+    padding: 8px 9px; width: auto; margin: 0; border-radius: 8px;
+    background: #21262d; color: #8b949e; border: 1px solid #30363d;
+  }
+  .chip.chipY.on { background: #1f6feb; color: #fff; border-color: #1f6feb; }
+  .chip.chipA.on { background: #8957e5; color: #fff; border-color: #8957e5; }
 
   button {
     font-size: 17px; font-weight: 700; border: none; border-radius: 12px;
@@ -54,6 +65,30 @@
   #addForm button { width: auto; margin: 0; padding: 12px 18px; background: #1f6feb; }
 
   .hint { text-align: center; color: #8b949e; font-size: 13px; margin: 12px 0; }
+  #msg { text-align: center; color: #f0883e; font-size: 13px; margin: 8px 0; min-height: 16px; }
+
+  /* ---------- historie: tabulka kol ---------- */
+  #historyBox { margin-top: 18px; }
+  #historyBox h2 { font-size: 14px; color: #8b949e; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .tableWrap { overflow-x: auto; border: 1px solid #30363d; border-radius: 12px; }
+  table { border-collapse: collapse; width: 100%; min-width: 100%; }
+  th, td {
+    padding: 8px 10px; text-align: center; font-size: 14px;
+    border-bottom: 1px solid #21262d; white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  thead th { background: #161b22; font-size: 13px; color: #c9d1d9; position: sticky; top: 0; }
+  th:first-child, td:first-child { color: #8b949e; font-size: 12px; }
+  tfoot td { background: #161b22; font-weight: 800; font-size: 15px; border-bottom: none; }
+  tfoot td.dead { color: #f85149; }
+  .badge {
+    display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: .5px;
+    border-radius: 5px; padding: 1px 4px; margin-left: 4px; vertical-align: 1px;
+  }
+  .badge.y { background: #1f6feb; color: #fff; }
+  .badge.yx { background: #f85149; color: #fff; }
+  .badge.a { background: #8957e5; color: #fff; }
+  .slash { display: block; font-size: 10px; color: #3fb950; }
 
   /* ---------- BUSTED overlay (GTA San Andreas style) ---------- */
   #busted {
@@ -111,13 +146,24 @@
   </div>
 
   <div id="players"></div>
+  <div id="msg"></div>
 
-  <p class="hint" id="hintEl">Přidej hráče, každé kolo zapiš body a ulož. Kdo dosáhne 100, je BUSTED.</p>
+  <p class="hint" id="hintEl">
+    Přidej hráče. Každé kolo zapiš všem hodnotu karet v ruce,
+    volajícímu označ <b>Yaniv</b> — když ho někdo přebil, označ mu <b>Asaf</b>
+    (volající pak dostane ruku +30). Přesných 50 se snižuje na 25.
+    Kdo dosáhne 100, je BUSTED.
+  </p>
 
   <button class="primary" id="saveRound">Zapsat kolo</button>
   <div class="row">
     <button class="secondary" id="undo">↩ Vrátit kolo</button>
     <button class="secondary" id="reset">Nová hra</button>
+  </div>
+
+  <div id="historyBox" hidden>
+    <h2>Historie kol</h2>
+    <div class="tableWrap"><table id="history"></table></div>
   </div>
 </div>
 
@@ -131,6 +177,7 @@
 <script>
 const LIMIT = 100;
 const BUSTED_TEXT = 'BUSTED, VOLE, BUSTED';
+
 /* localStorage může být v sandboxu (Artifact/iframe) zablokovaný — pak jen v paměti */
 const store = {
   get() { try { return localStorage.getItem('yaniv'); } catch (e) { return null; } },
@@ -138,30 +185,101 @@ const store = {
 };
 let state = { players: [], rounds: [] };
 try { state = JSON.parse(store.get() || 'null') || state; } catch (e) {}
+/* migrace starého formátu kola {pid: body} -> {s: {...}, y: null, a: null} */
+state.rounds = state.rounds.map(r => r.s ? r : { s: r, y: null, a: null });
 
 const save = () => store.set(JSON.stringify(state));
-const totalOf = p => state.rounds.reduce((s, r) => s + (r[p.id] || 0), 0);
 const $ = id => document.getElementById(id);
 
+let yanivSel = null, asafSel = null;   // výběr pro právě zapisované kolo
+
+/* Přehraje celou hru od začátku: součty, halvace 50->25, kdo a kdy vypadl.
+   Vrací totals {pid: body} a rows — data pro tabulku historie. */
+function computeGame() {
+  const totals = {};
+  state.players.forEach(p => totals[p.id] = 0);
+  const rows = [];
+  for (const r of state.rounds) {
+    const row = {};
+    for (const p of state.players) {
+      if (totals[p.id] >= LIMIT) { row[p.id] = null; continue; }   // už je venku
+      let sc = r.s[p.id] || 0;
+      let badge = '';
+      if (r.y === p.id) {
+        if (r.a) { sc = (r.s[p.id] || 0) + 30; badge = 'yx'; }      // přebitý Yaniv: ruka +30
+        else { sc = 0; badge = 'y'; }                               // úspěšný Yaniv: 0
+      } else if (r.a === p.id) badge = 'a';
+      totals[p.id] += sc;
+      let slash = null;
+      if (totals[p.id] === 50) { totals[p.id] = 25; slash = '50→25'; }
+      row[p.id] = { sc, badge, slash };
+    }
+    rows.push(row);
+  }
+  return { totals, rows };
+}
+
 function render() {
+  const { totals, rows } = computeGame();
   const box = $('players');
   box.innerHTML = '';
   for (const p of state.players) {
-    const total = totalOf(p);
+    const total = totals[p.id];
     const out = total >= LIMIT;
     const div = document.createElement('div');
     div.className = 'player' + (out ? ' out' : '');
     div.innerHTML = `
       <div class="name">${p.name.replace(/[<>&]/g, '')}</div>
       <div class="total ${total >= LIMIT ? 'dead' : total >= 80 ? 'warn' : ''}">${total}</div>
-      ${out ? '<div class="outLabel">BUSTED</div>'
-            : `<input type="number" inputmode="numeric" placeholder="0" data-id="${p.id}">`}
+      ${out ? '<div class="outLabel">BUSTED</div>' : `
+        <input type="number" inputmode="numeric" placeholder="0" data-id="${p.id}">
+        <button type="button" class="chip chipY" data-id="${p.id}">Yaniv</button>
+        <button type="button" class="chip chipA" data-id="${p.id}">Asaf</button>`}
     `;
     box.appendChild(div);
   }
-  $('saveRound').disabled = state.players.filter(p => totalOf(p) < LIMIT).length === 0;
+  refreshChips();
+  renderTable(rows, totals);
+  $('saveRound').disabled = state.players.filter(p => totals[p.id] < LIMIT).length === 0;
   $('undo').disabled = state.rounds.length === 0;
   $('hintEl').style.display = state.players.length ? 'none' : '';
+}
+
+function renderTable(rows, totals) {
+  const boxWrap = $('historyBox');
+  if (!state.rounds.length) { boxWrap.hidden = true; return; }
+  boxWrap.hidden = false;
+  const t = $('history');
+  const names = state.players.map(p => `<th>${p.name.replace(/[<>&]/g, '')}</th>`).join('');
+  const badgeHtml = b =>
+    b === 'y' ? '<span class="badge y">Y</span>' :
+    b === 'yx' ? '<span class="badge yx">Y+30</span>' :
+    b === 'a' ? '<span class="badge a">A</span>' : '';
+  const body = rows.map((row, i) => {
+    const cells = state.players.map(p => {
+      const c = row[p.id];
+      if (!c) return '<td>–</td>';
+      return `<td>${c.sc}${badgeHtml(c.badge)}${c.slash ? `<span class="slash">${c.slash}</span>` : ''}</td>`;
+    }).join('');
+    return `<tr><td>${i + 1}</td>${cells}</tr>`;
+  }).join('');
+  const foot = state.players.map(p =>
+    `<td class="${totals[p.id] >= LIMIT ? 'dead' : ''}">${totals[p.id] >= LIMIT ? 'BUSTED' : totals[p.id]}</td>`
+  ).join('');
+  t.innerHTML = `
+    <thead><tr><th>#</th>${names}</tr></thead>
+    <tbody>${body}</tbody>
+    <tfoot><tr><td>Σ</td>${foot}</tr></tfoot>`;
+}
+
+function refreshChips() {
+  document.querySelectorAll('.chipY').forEach(b => b.classList.toggle('on', b.dataset.id === yanivSel));
+  document.querySelectorAll('.chipA').forEach(b => b.classList.toggle('on', b.dataset.id === asafSel));
+}
+
+function setMsg(text) {
+  $('msg').textContent = text || '';
+  if (text) setTimeout(() => { if ($('msg').textContent === text) $('msg').textContent = ''; }, 4000);
 }
 
 function addPlayer() {
@@ -176,20 +294,38 @@ $('newName').addEventListener('keydown', e => {
   if (e.key === 'Enter') { e.preventDefault(); addPlayer(); }
 });
 
+/* Yaniv/Asaf výběr — delegace, ať přežije re-render a nesmaže zadané hodnoty */
+$('players').addEventListener('click', e => {
+  const y = e.target.closest('.chipY');
+  const a = e.target.closest('.chipA');
+  if (y) {
+    yanivSel = yanivSel === y.dataset.id ? null : y.dataset.id;
+    if (asafSel === yanivSel) asafSel = null;
+  } else if (a) {
+    asafSel = asafSel === a.dataset.id ? null : a.dataset.id;
+    if (yanivSel === asafSel) yanivSel = null;
+  } else return;
+  refreshChips();
+});
+
 $('saveRound').addEventListener('click', () => {
-  const round = {};
+  if (asafSel && !yanivSel) { setMsg('Asaf jde označit jen společně s Yanivem.'); return; }
+
+  const s = {};
   let any = false;
   document.querySelectorAll('#players input').forEach(inp => {
     const v = parseInt(inp.value, 10);
-    if (!isNaN(v) && v !== 0) { round[inp.dataset.id] = v; any = true; }
+    if (!isNaN(v) && v !== 0) { s[inp.dataset.id] = v; any = true; }
   });
-  if (!any) return;
+  if (!any && !yanivSel) { setMsg('Zapiš aspoň jednu hodnotu.'); return; }
 
-  const before = Object.fromEntries(state.players.map(p => [p.id, totalOf(p)]));
-  state.rounds.push(round);
+  const before = computeGame().totals;
+  state.rounds.push({ s, y: yanivSel, a: asafSel });
+  yanivSel = null; asafSel = null;
   save(); render();
 
-  const justBusted = state.players.filter(p => before[p.id] < LIMIT && totalOf(p) >= LIMIT);
+  const after = computeGame().totals;
+  const justBusted = state.players.filter(p => before[p.id] < LIMIT && after[p.id] >= LIMIT);
   if (justBusted.length) showBusted(justBusted.map(p => p.name));
 });
 
@@ -202,6 +338,7 @@ $('reset').addEventListener('click', () => {
     clearTimeout(resetArmed); resetArmed = null;
     $('reset').textContent = 'Nová hra';
     state.rounds = [];
+    yanivSel = null; asafSel = null;
     save(); render();
     return;
   }
@@ -402,6 +539,13 @@ function synthBusted() {
     o.start(t); o.stop(t + 0.12);
   }
 }
+
+/* ---------- PWA: service worker (jen přes http/https, na file:// se přeskočí) ---------- */
+try {
+  if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+} catch (e) {}
 
 render();
 </script>
