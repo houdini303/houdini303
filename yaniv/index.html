@@ -11,6 +11,11 @@
 <link rel="icon" href="icon-192.png">
 <title>Yaniv – počítadlo</title>
 <style>
+  @font-face {
+    font-family: 'Pirata One';
+    src: url(data:font/woff2;base64,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) format('woff2');
+    font-weight: 400; font-style: normal;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   html, body { height: 100%; }
   body {
@@ -112,18 +117,19 @@
   body.grayscale #app { filter: grayscale(1) brightness(.6); transition: filter .4s; }
 
   #chase {
-    width: min(96vw, 460px); height: 150px;
+    width: min(96vw, 460px); height: 200px;
+    border-radius: 12px;
     image-rendering: pixelated;
   }
 
   #bustedWord {
     display: flex; flex-wrap: wrap; justify-content: center;
-    gap: 2px; row-gap: 0; padding: 0 8px; margin-top: 2vh;
+    gap: 0 .4em; row-gap: 0; padding: 0 8px; margin-top: 2vh;
   }
-  #bustedWord .sp { width: .35em; }
+  #bustedWord .word { display: flex; }
   #bustedWord .l {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: min(11vw, 56px); font-weight: 800; letter-spacing: 1px;
+    font-family: 'Pirata One', Georgia, serif;
+    font-size: min(13vw, 64px); font-weight: 400; letter-spacing: 2px;
     background: linear-gradient(#cfe3ff 0%, #7fb2ff 45%, #1e5bbf 55%, #0a2f6b 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
     -webkit-text-stroke: 1.5px #061a3a;
@@ -194,7 +200,7 @@
 </div>
 
 <div id="busted">
-  <canvas id="chase" width="460" height="150"></canvas>
+  <canvas id="chase" width="460" height="200"></canvas>
   <div id="bustedWord"></div>
   <div id="bustedWho"></div>
   <button id="bustedClose">OK</button>
@@ -399,7 +405,7 @@ $('reset').addEventListener('click', () => {
 /* ================= BUSTED sekvence =================
    1. honička: CJ na Sanchezi ujíždí, policajt ho dojede a odstaví
    2. razítkování textu "BUSTED, VOLE, BUSTED" (SA styl)          */
-const CHASE_MS = 2600;
+const CHASE_MS = 3200;
 let chaseRAF = null, chaseStart = 0;
 
 function showBusted(names) {
@@ -414,22 +420,26 @@ function showBusted(names) {
   startChase();
   playSound();
 
-  const letters = BUSTED_TEXT.split('');
-  let delay = CHASE_MS;
-  for (const ch of letters) {
-    const l = document.createElement('span');
-    if (ch === ' ') { l.className = 'sp'; word.appendChild(l); continue; }
-    l.className = 'l';
-    l.textContent = ch;
-    word.appendChild(l);
-    const d = delay;
-    setTimeout(() => {
-      l.classList.add('stamp');
-      overlay.classList.remove('shake');
-      void overlay.offsetWidth;
-      overlay.classList.add('shake');
-    }, d);
-    delay += 110;
+  /* písmena seskupená po slovech — řádek se láme jen mezi slovy */
+  let delay = CHASE_MS + 850;
+  for (const w of BUSTED_TEXT.split(' ')) {
+    const wEl = document.createElement('span');
+    wEl.className = 'word';
+    for (const ch of w.split('')) {
+      const l = document.createElement('span');
+      l.className = 'l';
+      l.textContent = ch;
+      wEl.appendChild(l);
+      const d = delay;
+      setTimeout(() => {
+        l.classList.add('stamp');
+        overlay.classList.remove('shake');
+        void overlay.offsetWidth;
+        overlay.classList.add('shake');
+      }, d);
+      delay += 110;
+    }
+    word.appendChild(wEl);
   }
 }
 
@@ -439,93 +449,262 @@ $('bustedClose').addEventListener('click', () => {
   if (chaseRAF) { cancelAnimationFrame(chaseRAF); chaseRAF = null; }
 });
 
-/* ---------- pixel-art honička (vlastní kresba, žádné herní assety) ---------- */
+/* ---------- honička à la San Andreas (vlastní kresba, žádné herní assety) ----------
+   Noční Los Santos: parallax skyline + palmy, CJ na Sanchezi, policejní
+   Cruiser s majáky, smyk s prachem, reflektor a filmový flash. */
 function startChase() {
   const cv = $('chase');
   const ctx = cv.getContext('2d');
   chaseStart = performance.now();
   if (chaseRAF) cancelAnimationFrame(chaseRAF);
 
-  const W = cv.width, H = cv.height, GROUND = H - 22;
+  const W = cv.width, H = cv.height, GROUND = H - 30;
+  const R = i => Math.abs(Math.sin(i * 999.77) * 43758.5453) % 1;   // deterministický "random"
 
-  function drawWheel(x, y, r, spin) {
-    ctx.fillStyle = '#1a1a1a';
+  // hvězdy, budovy a palmy vygenerované jednou (žádné problikávání)
+  const stars = Array.from({ length: 46 }, (_, i) =>
+    ({ x: R(i) * W, y: R(i + 50) * (GROUND - 110), s: R(i + 99) < .25 ? 2 : 1 }));
+  const bld = []; let bx = 0;
+  while (bx < W * 2.2) {
+    const w = 30 + R(bx) * 46, h = 42 + R(bx + 7) * 78;
+    bld.push({ x: bx, w, h }); bx += w + 4 + R(bx + 13) * 18;
+  }
+  const BLD_W = bx;
+  const palmGap = 190;
+
+  function wheel(x, y, r, spin) {
+    ctx.fillStyle = '#26292f';
     ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill();
-    ctx.fillStyle = '#555';
-    ctx.beginPath(); ctx.arc(x, y, r * .45, 0, 7); ctx.fill();
-    ctx.strokeStyle = '#888'; ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(x - Math.cos(spin) * r * .8, y - Math.sin(spin) * r * .8);
-    ctx.lineTo(x + Math.cos(spin) * r * .8, y + Math.sin(spin) * r * .8);
-    ctx.stroke();
+    ctx.strokeStyle = '#4a4f57'; ctx.lineWidth = 2.5;                // knobby plášť
+    ctx.setLineDash([3, 4]); ctx.lineDashOffset = -spin * r;
+    ctx.beginPath(); ctx.arc(x, y, r - 1.5, 0, 7); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#606774';
+    ctx.beginPath(); ctx.arc(x, y, r * .38, 0, 7); ctx.fill();
+    ctx.strokeStyle = '#9aa2ad'; ctx.lineWidth = 1.5;                // rotující výplet
+    for (let k = 0; k < 3; k++) {
+      const a = spin + k * Math.PI / 3;
+      ctx.beginPath();
+      ctx.moveTo(x - Math.cos(a) * r * .72, y - Math.sin(a) * r * .72);
+      ctx.lineTo(x + Math.cos(a) * r * .72, y + Math.sin(a) * r * .72);
+      ctx.stroke();
+    }
   }
 
-  // CJ na Sanchezi (červenobílá krosová motorka, jezdec: bílé tílko, džíny, zelený šátek)
-  function drawBike(x, y, t) {
-    const spin = t / 60;
-    drawWheel(x, y, 11, spin);        // zadní kolo
-    drawWheel(x + 46, y, 11, spin);   // přední kolo
-    ctx.fillStyle = '#c62828';                       // rám Sanchez
-    ctx.fillRect(x + 8, y - 18, 30, 7);
-    ctx.fillStyle = '#eee';                          // blatníky
-    ctx.fillRect(x - 6, y - 20, 14, 4);
-    ctx.fillRect(x + 40, y - 22, 14, 4);
-    ctx.strokeStyle = '#999'; ctx.lineWidth = 3;     // vidlice + řídítka
-    ctx.beginPath(); ctx.moveTo(x + 46, y); ctx.lineTo(x + 42, y - 26); ctx.stroke();
-    ctx.strokeStyle = '#333';
-    ctx.beginPath(); ctx.moveTo(x + 42, y - 26); ctx.lineTo(x + 36, y - 30); ctx.stroke();
+  // Sanchez + jezdec (bílé tílko, džíny, zelený šátek); caught = ruce nad hlavu
+  function drawBike(x, y, t, caught) {
+    const spin = t / 40;
+    wheel(x, y, 13, spin); wheel(x + 52, y, 13, spin);
+    ctx.strokeStyle = '#4a4f57'; ctx.lineWidth = 3;                  // kyvná vidlice
+    ctx.beginPath(); ctx.moveTo(x + 1, y - 2); ctx.lineTo(x + 24, y - 15); ctx.stroke();
+    ctx.fillStyle = '#8d939c'; ctx.fillRect(x + 4, y - 21, 22, 4);   // výfuk
+    ctx.fillStyle = '#c62828';                                       // rám + nádrž
+    ctx.fillRect(x + 16, y - 31, 28, 9);
+    ctx.fillRect(x + 32, y - 36, 14, 7);
+    ctx.fillStyle = '#1b1b1b'; ctx.fillRect(x + 14, y - 34, 16, 4);  // sedlo
+    ctx.fillStyle = '#f4f4f4';                                       // blatníky
+    ctx.fillRect(x - 9, y - 27, 19, 4);
+    ctx.fillRect(x + 43, y - 32, 20, 4);
+    ctx.strokeStyle = '#c9ced6'; ctx.lineWidth = 3.5;                // přední vidlice
+    ctx.beginPath(); ctx.moveTo(x + 52, y - 2); ctx.lineTo(x + 59, y - 38); ctx.stroke();
+    ctx.strokeStyle = '#2a2a2a'; ctx.lineWidth = 3;                  // řídítka
+    ctx.beginPath(); ctx.moveTo(x + 59, y - 38); ctx.lineTo(x + 50, y - 45); ctx.stroke();
+
     // jezdec
-    ctx.fillStyle = '#1e3a8a'; ctx.fillRect(x + 12, y - 30, 9, 14);   // džíny
-    ctx.fillStyle = '#6d4c2f'; ctx.fillRect(x + 12, y - 16, 9, 6);    // boty
-    ctx.fillStyle = '#f5f5f5'; ctx.fillRect(x + 13, y - 44, 10, 15);  // bílé tílko
-    ctx.fillStyle = '#7b4a24';                                        // ruce k řídítkům
-    ctx.fillRect(x + 21, y - 40, 15, 4);
-    ctx.fillStyle = '#7b4a24'; ctx.fillRect(x + 14, y - 54, 9, 10);   // hlava
-    ctx.fillStyle = '#2e7d32'; ctx.fillRect(x + 13, y - 56, 11, 4);   // zelený šátek
+    ctx.fillStyle = '#1e40af';                                       // stehno + lýtko
+    ctx.fillRect(x + 20, y - 32, 9, 13);
+    ctx.fillRect(x + 20, y - 22, 7, 9);
+    ctx.fillStyle = '#33251a'; ctx.fillRect(x + 18, y - 15, 11, 5);  // bota
+    ctx.fillStyle = '#f5f5f5';                                       // tílko (v předklonu / vzpřímeně)
+    ctx.beginPath();
+    if (!caught) {
+      ctx.moveTo(x + 18, y - 32); ctx.lineTo(x + 30, y - 32);
+      ctx.lineTo(x + 41, y - 51); ctx.lineTo(x + 30, y - 53);
+    } else {
+      ctx.moveTo(x + 19, y - 32); ctx.lineTo(x + 31, y - 32);
+      ctx.lineTo(x + 33, y - 55); ctx.lineTo(x + 21, y - 55);
+    }
+    ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#7b4a24'; ctx.lineWidth = 5; ctx.lineCap = 'round';
+    if (!caught) {                                                   // jedna paže k řídítkům
+      ctx.beginPath(); ctx.moveTo(x + 36, y - 48); ctx.lineTo(x + 51, y - 43); ctx.stroke();
+    } else {                                                         // obě ruce nad hlavu
+      ctx.beginPath(); ctx.moveTo(x + 22, y - 52); ctx.lineTo(x + 16, y - 68); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x + 30, y - 52); ctx.lineTo(x + 36, y - 68); ctx.stroke();
+      ctx.fillStyle = '#7b4a24';
+      ctx.beginPath(); ctx.arc(x + 15, y - 70, 3, 0, 7); ctx.fill();
+      ctx.beginPath(); ctx.arc(x + 37, y - 70, 3, 0, 7); ctx.fill();
+    }
+    ctx.lineCap = 'butt';
+    const hx = caught ? x + 21 : x + 33;                             // hlava
+    const hy = caught ? y - 67 : y - 62;
+    ctx.fillStyle = '#7b4a24'; ctx.fillRect(hx, hy, 11, 12);
+    ctx.fillStyle = '#2e7d32'; ctx.fillRect(hx - 1, hy - 3, 13, 5);  // šátek
+    const flap = caught ? 0 : Math.sin(t / 55) * 2;                  // vlající cíp
+    ctx.fillRect(hx - 6, hy - 1 + flap, 6, 3);
   }
 
-  // policejní auto
-  function drawCop(x, y, t) {
-    const spin = t / 60;
-    ctx.fillStyle = '#111'; ctx.fillRect(x, y - 20, 78, 12);          // spodek
-    ctx.fillStyle = '#eee'; ctx.fillRect(x + 10, y - 34, 48, 15);     // kabina
-    ctx.fillStyle = '#9ecbff'; ctx.fillRect(x + 16, y - 31, 16, 9);   // okna
-    ctx.fillRect(x + 38, y - 31, 14, 9);
-    ctx.fillStyle = '#000'; ctx.font = 'bold 8px sans-serif';
-    ctx.fillText('POLICIE', x + 18, y - 10);
-    const blue = Math.floor(t / 120) % 2 === 0;                       // maják
-    ctx.fillStyle = blue ? '#2979ff' : '#d50000';
-    ctx.fillRect(x + 24, y - 40, 8, 6);
-    ctx.fillStyle = blue ? '#d50000' : '#2979ff';
-    ctx.fillRect(x + 34, y - 40, 8, 6);
-    drawWheel(x + 16, y, 9, spin);
-    drawWheel(x + 60, y, 9, spin);
+  // černobílý policejní cruiser
+  function drawCop(x, y, t, caught) {
+    const spin = t / 40;
+    ctx.fillStyle = '#0c0c0e';                                       // kapota + kufr
+    ctx.fillRect(x, y - 26, 27, 13);
+    ctx.fillRect(x + 63, y - 26, 33, 13);
+    ctx.beginPath();                                                 // zkosený předek
+    ctx.moveTo(x + 96, y - 26); ctx.lineTo(x + 102, y - 18); ctx.lineTo(x + 96, y - 13);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#ececec'; ctx.fillRect(x + 25, y - 27, 40, 14); // bílé dveře
+    ctx.fillStyle = '#ececec';                                       // kabina
+    ctx.beginPath();
+    ctx.moveTo(x + 27, y - 27); ctx.lineTo(x + 35, y - 42); ctx.lineTo(x + 62, y - 42);
+    ctx.lineTo(x + 68, y - 27); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#9fc3e8';                                       // okna
+    ctx.beginPath();
+    ctx.moveTo(x + 31, y - 29); ctx.lineTo(x + 37, y - 40); ctx.lineTo(x + 47, y - 40);
+    ctx.lineTo(x + 47, y - 29); ctx.closePath(); ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(x + 50, y - 40); ctx.lineTo(x + 60, y - 40); ctx.lineTo(x + 64, y - 29);
+    ctx.lineTo(x + 50, y - 29); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#111'; ctx.font = 'bold 8px sans-serif';
+    ctx.fillText('POLICIE', x + 30, y - 17);
+    ctx.fillStyle = '#ffd970'; ctx.fillRect(x + 99, y - 24, 3, 4);   // světlomet
+    // maják — střídavé blikání + záře
+    const phase = Math.floor(t / 110) % 2;
+    const lit = phase === 0 ? '#ff2a2a' : '#2a6bff';
+    ctx.fillStyle = phase === 0 ? '#ff2a2a' : '#5c0f0f';
+    ctx.fillRect(x + 38, y - 48, 9, 6);
+    ctx.fillStyle = phase === 1 ? '#2a6bff' : '#0f1f5c';
+    ctx.fillRect(x + 49, y - 48, 9, 6);
+    const g = ctx.createRadialGradient(x + 48, y - 45, 2, x + 48, y - 45, 30);
+    g.addColorStop(0, lit + '55'); g.addColorStop(1, lit + '00');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(x + 48, y - 45, 30, 0, 7); ctx.fill();
+    if (!caught) {                                                   // kužel světlometů
+      ctx.fillStyle = 'rgba(255,244,190,.08)';
+      ctx.beginPath();
+      ctx.moveTo(x + 101, y - 21); ctx.lineTo(x + 160, y - 4); ctx.lineTo(x + 160, y - 32);
+      ctx.closePath(); ctx.fill();
+    }
+    wheel(x + 19, y, 11, spin); wheel(x + 76, y, 11, spin);
+  }
+
+  function drawPalm(x, baseY, i) {
+    ctx.strokeStyle = '#3d2f22'; ctx.lineWidth = 5;
+    const lean = (R(i) - .5) * 14;
+    ctx.beginPath(); ctx.moveTo(x, baseY);
+    ctx.quadraticCurveTo(x + lean, baseY - 30, x + lean * 1.6, baseY - 56);
+    ctx.stroke();
+    const tx = x + lean * 1.6, ty = baseY - 56;
+    ctx.strokeStyle = '#173b1f'; ctx.lineWidth = 4; ctx.lineCap = 'round';
+    for (let k = 0; k < 6; k++) {
+      const a = -Math.PI * (0.12 + k * 0.15);
+      ctx.beginPath(); ctx.moveTo(tx, ty);
+      ctx.quadraticCurveTo(tx + Math.cos(a) * 16, ty + Math.sin(a) * 16 - 4,
+                           tx + Math.cos(a) * 30, ty + Math.sin(a) * 30 + 6);
+      ctx.stroke();
+    }
+    ctx.lineCap = 'butt';
   }
 
   function frame(now) {
     const t = now - chaseStart;
-    ctx.clearRect(0, 0, W, H);
-
-    ctx.fillStyle = '#333'; ctx.fillRect(0, GROUND + 8, W, 4);        // silnice
-    ctx.fillStyle = '#666';
-    for (let i = 0; i < 8; i++) ctx.fillRect((i * 70 - (t / 6) % 70), GROUND + 9, 30, 2);
-
-    // fáze honičky: CJ ujíždí, policajt ho dojede, oba zastaví
     const p = Math.min(t / CHASE_MS, 1);
-    const ease = p < .8 ? p / .8 : 1;
-    const stopEase = 1 - Math.pow(1 - ease, 2);
-    const bikeX = -70 + stopEase * (W * .62 + 70);
-    const gap = 130 - Math.min(t / CHASE_MS, 1) * 40;                 // policajt se přibližuje
-    const bounce = p < .95 ? Math.sin(t / 50) * 2 : 0;
+    const caught = p >= 1;
+    const dist = 1500 * (1 - (1 - p) * (1 - p));                    // svět zpomaluje do zastavení
+    const skid = p > .82 && !caught;
 
-    drawBike(bikeX, GROUND + bounce, p < .95 ? t : 0);
-    drawCop(bikeX - gap, GROUND + (p < .95 ? Math.sin(t / 60) * 1.5 : 0), t);
+    ctx.clearRect(0, 0, W, H);
+    ctx.save();
+    if (skid) ctx.translate(Math.sin(t / 13) * 2, Math.cos(t / 17) * 1.5);
 
-    if (p >= 1) {                                                     // odstavený: ruce vzhůru
-      ctx.fillStyle = '#7b4a24';
-      ctx.fillRect(bikeX + 8, GROUND - 52, 4, 12);
-      ctx.fillRect(bikeX + 24, GROUND - 52, 4, 12);
+    const sky = ctx.createLinearGradient(0, 0, 0, GROUND);          // noční obloha
+    sky.addColorStop(0, '#060a18'); sky.addColorStop(1, '#1a2340');
+    ctx.fillStyle = sky; ctx.fillRect(-4, -4, W + 8, GROUND + 8);
+
+    ctx.fillStyle = '#f4f0d8';                                       // měsíc
+    ctx.beginPath(); ctx.arc(W - 64, 34, 13, 0, 7); ctx.fill();
+    const mg = ctx.createRadialGradient(W - 64, 34, 13, W - 64, 34, 42);
+    mg.addColorStop(0, 'rgba(244,240,216,.25)'); mg.addColorStop(1, 'rgba(244,240,216,0)');
+    ctx.fillStyle = mg; ctx.beginPath(); ctx.arc(W - 64, 34, 42, 0, 7); ctx.fill();
+
+    for (const s of stars) {                                         // hvězdy
+      ctx.fillStyle = `rgba(255,255,255,${.4 + .4 * Math.sin(t / 300 + s.x)})`;
+      ctx.fillRect(s.x, s.y, s.s, s.s);
     }
+
+    const o1 = -(dist * .18) % BLD_W;                                // skyline (pomalý parallax)
+    ctx.fillStyle = '#0e1424';
+    for (const off of [o1, o1 + BLD_W]) for (const b of bld) {
+      const x = b.x + off; if (x > W || x + b.w < 0) continue;
+      ctx.fillRect(x, GROUND - b.h, b.w, b.h);
+    }
+    ctx.fillStyle = 'rgba(255,217,112,.5)';                          // svítící okna
+    for (const off of [o1, o1 + BLD_W]) for (const b of bld) {
+      const x = b.x + off; if (x > W || x + b.w < 0) continue;
+      for (let k = 0; k < 5; k++) {
+        if (R(b.x + k * 31) < .5) continue;
+        ctx.fillRect(x + 4 + R(b.x + k) * (b.w - 9), GROUND - b.h + 6 + R(b.x + k + 3) * (b.h - 14), 3, 4);
+      }
+    }
+
+    const o2 = -(dist * .6) % palmGap;                               // palmy (rychlejší parallax)
+    for (let k = -1; k < W / palmGap + 2; k++) {
+      const px = k * palmGap + o2 + R(k) * 40;
+      drawPalm(px, GROUND + 2, Math.floor((px - o2) / palmGap));
+    }
+
+    ctx.fillStyle = '#15171c'; ctx.fillRect(-4, GROUND + 2, W + 8, H - GROUND);  // asfalt
+    ctx.fillStyle = '#2c3038'; ctx.fillRect(-4, GROUND + 2, W + 8, 2);
+    ctx.fillStyle = '#b9bec7';                                       // středová čára
+    for (let k = 0; k < 10; k++) ctx.fillRect((k * 64 - dist % 64), GROUND + 15, 34, 3);
+
+    if (t > 350) {                                                   // ambientní nádech majáků
+      const phase = Math.floor(t / 110) % 2;
+      ctx.fillStyle = phase === 0 ? 'rgba(255,42,42,.045)' : 'rgba(42,107,255,.045)';
+      ctx.fillRect(-4, -4, W + 8, H + 8);
+    }
+
+    const s = 1 - Math.pow(1 - p, 3);                                // ease-out: rychlý nástup, plynulý dojezd
+    const bikeX = -95 + s * (W * .62 + 95);
+    const gap = 118 - 28 * s;
+    const bounce = caught ? 0 : Math.sin(t / 45) * 2 * (1 - p * .7);
+
+    if (skid || caught) {                                            // prach od smyku
+      const d = caught ? 1 : (p - .82) / .18;
+      ctx.fillStyle = `rgba(160,150,130,${.25 * (caught ? Math.max(0, 1 - (t - CHASE_MS) / 900) : d)})`;
+      for (let k = 0; k < 5; k++) {
+        ctx.beginPath();
+        ctx.arc(bikeX - 6 - k * 13 - d * 8, GROUND + 6 - R(k) * 10 - k * 2, 5 + k * 2.6, 0, 7);
+        ctx.fill();
+      }
+    }
+
+    drawCop(bikeX - gap - 102, GROUND + (caught ? 0 : Math.sin(t / 60) * 1.4), t, caught);
+    drawBike(bikeX, GROUND + bounce, caught ? 0 : t, caught);
+
+    if (caught) {                                                    // policejní reflektor
+      const a = .12 + .04 * Math.sin(t / 90);
+      ctx.fillStyle = `rgba(255,250,214,${a})`;
+      ctx.beginPath();
+      ctx.moveTo(bikeX + 130, -10);
+      ctx.lineTo(bikeX - 34, GROUND + 12); ctx.lineTo(bikeX + 92, GROUND + 12);
+      ctx.closePath(); ctx.fill();
+      ctx.fillStyle = `rgba(255,250,214,${a * .8})`;
+      ctx.beginPath();
+      ctx.ellipse(bikeX + 28, GROUND + 10, 66, 9, 0, 0, 7); ctx.fill();
+    }
+
+    ctx.restore();
+
+    const f = 1 - (t - CHASE_MS) / 240;                              // flash při dopadení
+    if (caught && f > 0) {
+      ctx.fillStyle = `rgba(255,255,255,${f * .55})`;
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    const vg = ctx.createRadialGradient(W / 2, H * .5, H * .45, W / 2, H * .5, W * .72);
+    vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.5)');
+    ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);                    // vinětace
 
     if ($('busted').classList.contains('show')) chaseRAF = requestAnimationFrame(frame);
   }
@@ -544,43 +723,93 @@ function playSound() {
 function synthBusted() {
   const ctx = new (window.AudioContext || window.webkitAudioContext)();
   const t0 = ctx.currentTime;
+  const end = t0 + CHASE_MS / 1000;
 
-  // siréna během honičky
-  const sir = ctx.createOscillator();
-  const sirG = ctx.createGain();
-  sir.type = 'triangle';
-  const sirEnd = t0 + CHASE_MS / 1000;
-  for (let t = 0; t < CHASE_MS / 1000; t += 0.45) {
-    sir.frequency.setValueAtTime(660, t0 + t);
-    sir.frequency.linearRampToValueAtTime(920, t0 + t + 0.22);
-    sir.frequency.linearRampToValueAtTime(660, t0 + t + 0.45);
+  const noiseBuf = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
+  const nd = noiseBuf.getChannelData(0);
+  for (let i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+
+  // motor Sancheze — hluboké vrčení s otáčkami
+  const eng = ctx.createOscillator(); eng.type = 'sawtooth';
+  eng.frequency.setValueAtTime(55, t0);
+  eng.frequency.linearRampToValueAtTime(95, end - 0.7);
+  eng.frequency.linearRampToValueAtTime(35, end);
+  const engF = ctx.createBiquadFilter(); engF.type = 'lowpass'; engF.frequency.value = 240;
+  const engG = ctx.createGain();
+  engG.gain.setValueAtTime(0.10, t0);
+  engG.gain.setValueAtTime(0.10, end - 0.6);
+  engG.gain.linearRampToValueAtTime(0.0001, end);
+  eng.connect(engF).connect(engG).connect(ctx.destination);
+  eng.start(t0); eng.stop(end);
+
+  // policejní wail — plynulé houkání nahoru a dolů
+  const sir = ctx.createOscillator(); sir.type = 'sine';
+  const sirEnd = end + 0.35;
+  for (let x = 0; x < (sirEnd - t0); x += 1.1) {
+    sir.frequency.setValueAtTime(620, t0 + x);
+    sir.frequency.linearRampToValueAtTime(1180, t0 + x + 0.55);
+    sir.frequency.linearRampToValueAtTime(620, t0 + x + 1.1);
   }
-  sirG.gain.setValueAtTime(0.12, t0);
-  sirG.gain.linearRampToValueAtTime(0.001, sirEnd);
+  const sirG = ctx.createGain();
+  sirG.gain.setValueAtTime(0.0, t0);
+  sirG.gain.linearRampToValueAtTime(0.085, t0 + 0.5);
+  sirG.gain.setValueAtTime(0.085, end - 0.2);
+  sirG.gain.linearRampToValueAtTime(0.0001, sirEnd);
   sir.connect(sirG).connect(ctx.destination);
   sir.start(t0); sir.stop(sirEnd);
 
-  // orchestrální dvojúder à la SA hned po zastavení
-  [[0, 65], [0.28, 49]].forEach(([dt, f]) => {
-    const t = sirEnd + 0.05 + dt;
-    const o = ctx.createOscillator(), o2 = ctx.createOscillator(), g = ctx.createGain();
-    o.type = 'sawtooth'; o.frequency.setValueAtTime(f, t);
-    o2.type = 'square'; o2.frequency.setValueAtTime(f * 2, t);
-    g.gain.setValueAtTime(0.55, t);
-    g.gain.exponentialRampToValueAtTime(0.001, t + 0.6);
-    o.connect(g); o2.connect(g); g.connect(ctx.destination);
-    o.start(t); o.stop(t + 0.62); o2.start(t); o2.stop(t + 0.62);
+  // smyk — filtrovaný šum těsně před zastavením
+  const sk = ctx.createBufferSource(); sk.buffer = noiseBuf;
+  const skF = ctx.createBiquadFilter(); skF.type = 'bandpass'; skF.frequency.value = 950; skF.Q.value = 0.9;
+  const skG = ctx.createGain();
+  const skT = end - 0.55;
+  skG.gain.setValueAtTime(0.0, skT);
+  skG.gain.linearRampToValueAtTime(0.28, skT + 0.06);
+  skG.gain.exponentialRampToValueAtTime(0.001, skT + 0.55);
+  sk.connect(skF).connect(skG).connect(ctx.destination);
+  sk.start(skT); sk.stop(skT + 0.6);
+
+  // orchestrální sting à la SA — dva těžké údery (tympán + žestě)
+  [[0.06, 1], [0.42, 0.8]].forEach(([dt, vol]) => {
+    const t = end + dt;
+    const tym = ctx.createOscillator(); tym.type = 'sine';
+    tym.frequency.setValueAtTime(82, t);
+    tym.frequency.exponentialRampToValueAtTime(38, t + 0.5);
+    const tymG = ctx.createGain();
+    tymG.gain.setValueAtTime(0.85 * vol, t);
+    tymG.gain.exponentialRampToValueAtTime(0.001, t + 0.62);
+    tym.connect(tymG).connect(ctx.destination);
+    tym.start(t); tym.stop(t + 0.65);
+
+    const th = ctx.createBufferSource(); th.buffer = noiseBuf;       // "kůže" bubnu
+    const thF = ctx.createBiquadFilter(); thF.type = 'lowpass'; thF.frequency.value = 160;
+    const thG = ctx.createGain();
+    thG.gain.setValueAtTime(0.5 * vol, t);
+    thG.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
+    th.connect(thF).connect(thG).connect(ctx.destination);
+    th.start(t); th.stop(t + 0.15);
+
+    [98, 147, 196].forEach(f => {                                    // žesťový akord
+      const br = ctx.createOscillator(); br.type = 'sawtooth';
+      br.frequency.setValueAtTime(f, t);
+      br.frequency.linearRampToValueAtTime(f * 0.985, t + 0.4);
+      const brG = ctx.createGain();
+      brG.gain.setValueAtTime(0.11 * vol, t);
+      brG.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+      br.connect(brG).connect(ctx.destination);
+      br.start(t); br.stop(t + 0.55);
+    });
   });
 
   // úder pro každé razítknuté písmeno
   const letters = BUSTED_TEXT.replace(/[^A-Z]/g, '').length;
   for (let i = 0; i < letters; i++) {
-    const t = sirEnd + i * 0.11;
+    const t = end + 0.85 + i * 0.11;
     const o = ctx.createOscillator(), g = ctx.createGain();
     o.type = 'square';
     o.frequency.setValueAtTime(90, t);
     o.frequency.exponentialRampToValueAtTime(45, t + 0.1);
-    g.gain.setValueAtTime(0.3, t);
+    g.gain.setValueAtTime(0.22, t);
     g.gain.exponentialRampToValueAtTime(0.001, t + 0.11);
     o.connect(g).connect(ctx.destination);
     o.start(t); o.stop(t + 0.12);
