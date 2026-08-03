@@ -67,6 +67,18 @@
   .hint { text-align: center; color: #8b949e; font-size: 13px; margin: 12px 0; }
   #msg { text-align: center; color: #f0883e; font-size: 13px; margin: 8px 0; min-height: 16px; }
 
+  .limitRow {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-top: 12px; color: #8b949e; font-size: 13px;
+  }
+  .limitRow input {
+    width: 64px; font-size: 15px; text-align: center;
+    background: #161b22; color: #e6edf3;
+    border: 1px solid #30363d; border-radius: 8px; padding: 7px 2px;
+  }
+  .limitRow input:disabled { opacity: .45; }
+  .limitNote { font-size: 11px; }
+
   /* ---------- historie: tabulka kol ---------- */
   #historyBox { margin-top: 18px; }
   #historyBox h2 { font-size: 14px; color: #8b949e; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
@@ -124,6 +136,15 @@
   }
   #bustedWho { margin-top: 3vh; font-size: 20px; font-weight: 700; color: #fff; text-align: center; padding: 0 20px; }
   #bustedClose { margin-top: 4vh; width: auto; padding: 12px 32px; background: #21262d; color: #c9d1d9; }
+  #coffee {
+    margin-top: 20px; padding: 10px 22px; border-radius: 12px;
+    background: #ffdd00; color: #0d0c22; font-weight: 700; font-size: 15px;
+    text-decoration: none;
+  }
+  #coffeeQr {
+    margin-top: 12px; width: 104px; height: 104px;
+    border-radius: 10px; background: #fff; padding: 5px;
+  }
   @keyframes shake {
     0%,100% { transform: translate(0,0); }
     20% { transform: translate(-8px,4px); } 40% { transform: translate(8px,-4px); }
@@ -160,6 +181,11 @@
     <button class="secondary" id="undo">↩ Vrátit kolo</button>
     <button class="secondary" id="reset">Nová hra</button>
   </div>
+  <div class="limitRow">
+    <label for="limitInput">Hraje se do</label>
+    <input id="limitInput" type="number" inputmode="numeric" step="10" min="20" max="1000">
+    <span class="limitNote">jde změnit jen před prvním kolem</span>
+  </div>
 
   <div id="historyBox" hidden>
     <h2>Historie kol</h2>
@@ -172,21 +198,24 @@
   <div id="bustedWord"></div>
   <div id="bustedWho"></div>
   <button id="bustedClose">OK</button>
+  <a id="coffee" target="_blank" rel="noopener">☕ Buy me a coffee</a>
+  <img id="coffeeQr" alt="QR – Revolut @filipl0w2" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMSAzMSIgc2hhcGUtcmVuZGVyaW5nPSJjcmlzcEVkZ2VzIj48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMCAwaDMxdjMxSDB6Ii8+PHBhdGggc3Ryb2tlPSIjMGQwYzIyIiBkPSJNMSAxLjVoN202IDBoM20xIDBoNG0xIDBoN00xIDIuNWgxbTUgMGgxbTIgMGgxbTEgMGgxbTEgMGg0bTEgMGgxbTMgMGgxbTUgMGgxTTEgMy41aDFtMSAwaDNtMSAwaDFtMSAwaDFtMSAwaDJtMSAwaDFtMSAwaDFtNCAwaDFtMSAwaDFtMSAwaDNtMSAwaDFNMSA0LjVoMW0xIDBoM20xIDBoMW0xIDBoMm00IDBoMm0xIDBoMW0xIDBoMW0yIDBoMW0xIDBoM20xIDBoMU0xIDUuNWgxbTEgMGgzbTEgMGgxbTEgMGgxbTEgMGgxbTEgMGgxbTIgMGgybTIgMGgybTEgMGgxbTEgMGgzbTEgMGgxTTEgNi41aDFtNSAwaDFtMSAwaDJtMiAwaDFtNSAwaDFtMSAwaDFtMSAwaDFtNSAwaDFNMSA3LjVoN20xIDBoMW0xIDBoMW0xIDBoMW0xIDBoMW0xIDBoMW0xIDBoMW0xIDBoMW0xIDBoN005IDguNWgxbTMgMGgxbTEgMGgxbTEgMGgxbTEgMGgxTTEgOS41aDFtMSAwaDVtMyAwaDFtNSAwaDJtMSAwaDFtMiAwaDVNMiAxMC41aDNtMyAwaDJtMiAwaDVtMSAwaDhtMyAwaDFNMSAxMS41aDFtMSAwaDZtMyAwaDFtMSAwaDRtNSAwaDJNMiAxMi41aDFtNyAwaDFtMSAwaDNtMSAwaDFtMiAwaDRtMSAwaDFtMSAwaDFtMSAwaDFNMSAxMy41aDFtMSAwaDVtMiAwaDFtMiAwaDFtMSAwaDJtMSAwaDJtNiAwaDJNMiAxNC41aDNtMSAwaDFtMSAwaDJtMSAwaDJtMyAwaDJtMiAwaDJtMSAwaDNtMyAwaDFNMSAxNS41aDNtMyAwaDJtMyAwaDJtNSAwaDFtMSAwaDFtNCAwaDJNMiAxNi41aDFtNSAwaDFtNiAwaDFtMSAwaDFtMSAwaDNtMiAwaDJtMiAwaDFNMiAxNy41aDFtMSAwaDJtMSAwaDRtMSAwaDJtMyAwaDJtMSAwaDFtMyAwaDFtMSAwaDJNMSAxOC41aDFtMSAwaDRtMSAwaDJtMiAwaDFtMSAwaDNtMyAwaDFtMiAwaDNtMSAwaDFtMSAwaDFNMSAxOS41aDFtNSAwaDVtMSAwaDZtMiAwaDFtMiAwaDJtMSAwaDFNMSAyMC41aDFtMiAwaDFtMSAwaDFtMSAwaDFtMSAwaDJtMiAwaDFtMSAwaDFtNCAwaDJtMSAwaDJtMiAwaDFNMSAyMS41aDFtMSAwaDNtMSAwaDJtNiAwaDJtMSAwaDJtMSAwaDVtMSAwaDNNOSAyMi41aDFtNiAwaDJtMyAwaDFtMyAwaDVNMSAyMy41aDdtMiAwaDFtNyAwaDRtMSAwaDFtMSAwaDNNMSAyNC41aDFtNSAwaDFtMSAwaDFtMiAwaDFtMiAwaDFtMSAwaDFtMSAwaDNtMyAwaDFtMiAwaDFNMSAyNS41aDFtMSAwaDNtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDFtMyAwaDFtMSAwaDFtMSAwaDVtMSAwaDFtMSAwaDFNMSAyNi41aDFtMSAwaDNtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDJtMSAwaDNtMSAwaDFtMyAwaDJNMSAyNy41aDFtMSAwaDNtMSAwaDFtMSAwaDNtNCAwaDNtMSAwaDlNMSAyOC41aDFtNSAwaDFtMiAwaDFtMSAwaDFtMSAwaDNtMSAwaDJtMSAwaDFtMSAwaDFtMiAwaDFtMSAwaDFNMSAyOS41aDdtMSAwaDJtMiAwaDFtMSAwaDJtMyAwaDFtMSAwaDJtMSAwaDMiLz48L3N2Zz4K">
 </div>
 
 <script>
-const LIMIT = 100;
 const BUSTED_TEXT = 'BUSTED, VOLE, BUSTED';
+const COFFEE_URL = 'https://revolut.me/filipl0w2';
 
 /* localStorage může být v sandboxu (Artifact/iframe) zablokovaný — pak jen v paměti */
 const store = {
   get() { try { return localStorage.getItem('yaniv'); } catch (e) { return null; } },
   set(v) { try { localStorage.setItem('yaniv', v); } catch (e) {} }
 };
-let state = { players: [], rounds: [] };
-try { state = JSON.parse(store.get() || 'null') || state; } catch (e) {}
+let state = { players: [], rounds: [], limit: 100 };
+try { state = Object.assign({ players: [], rounds: [], limit: 100 }, JSON.parse(store.get() || 'null')); } catch (e) {}
 /* migrace starého formátu kola {pid: body} -> {s: {...}, y: null, a: null} */
 state.rounds = state.rounds.map(r => r.s ? r : { s: r, y: null, a: null });
+const LIMIT = () => state.limit;
 
 const save = () => store.set(JSON.stringify(state));
 const $ = id => document.getElementById(id);
@@ -199,10 +228,11 @@ function computeGame() {
   const totals = {};
   state.players.forEach(p => totals[p.id] = 0);
   const rows = [];
+  const half = Math.round(LIMIT() / 2), quarter = Math.round(LIMIT() / 4);
   for (const r of state.rounds) {
     const row = {};
     for (const p of state.players) {
-      if (totals[p.id] >= LIMIT) { row[p.id] = null; continue; }   // už je venku
+      if (totals[p.id] >= LIMIT()) { row[p.id] = null; continue; } // už je venku
       let sc = r.s[p.id] || 0;
       let badge = '';
       if (r.y === p.id) {
@@ -211,7 +241,7 @@ function computeGame() {
       } else if (r.a === p.id) badge = 'a';
       totals[p.id] += sc;
       let slash = null;
-      if (totals[p.id] === 50) { totals[p.id] = 25; slash = '50→25'; }
+      if (totals[p.id] === half) { totals[p.id] = quarter; slash = `${half}→${quarter}`; }
       row[p.id] = { sc, badge, slash };
     }
     rows.push(row);
@@ -225,12 +255,12 @@ function render() {
   box.innerHTML = '';
   for (const p of state.players) {
     const total = totals[p.id];
-    const out = total >= LIMIT;
+    const out = total >= LIMIT();
     const div = document.createElement('div');
     div.className = 'player' + (out ? ' out' : '');
     div.innerHTML = `
       <div class="name">${p.name.replace(/[<>&]/g, '')}</div>
-      <div class="total ${total >= LIMIT ? 'dead' : total >= 80 ? 'warn' : ''}">${total}</div>
+      <div class="total ${total >= LIMIT() ? 'dead' : total >= LIMIT() * .8 ? 'warn' : ''}">${total}</div>
       ${out ? '<div class="outLabel">BUSTED</div>' : `
         <input type="number" inputmode="numeric" placeholder="0" data-id="${p.id}">
         <button type="button" class="chip chipY" data-id="${p.id}">Yaniv</button>
@@ -240,9 +270,16 @@ function render() {
   }
   refreshChips();
   renderTable(rows, totals);
-  $('saveRound').disabled = state.players.filter(p => totals[p.id] < LIMIT).length === 0;
+  $('saveRound').disabled = state.players.filter(p => totals[p.id] < LIMIT()).length === 0;
   $('undo').disabled = state.rounds.length === 0;
   $('hintEl').style.display = state.players.length ? 'none' : '';
+  const half = Math.round(LIMIT() / 2), quarter = Math.round(LIMIT() / 4);
+  $('hintEl').innerHTML = `Přidej hráče. Každé kolo zapiš všem hodnotu karet v ruce,
+    volajícímu označ <b>Yaniv</b> — když ho někdo přebil, označ mu <b>Asaf</b>
+    (volající pak dostane ruku +30). Přesných ${half} se snižuje na ${quarter}.
+    Kdo dosáhne ${LIMIT()}, je BUSTED.`;
+  $('limitInput').value = LIMIT();
+  $('limitInput').disabled = state.rounds.length > 0;
 }
 
 function renderTable(rows, totals) {
@@ -264,7 +301,7 @@ function renderTable(rows, totals) {
     return `<tr><td>${i + 1}</td>${cells}</tr>`;
   }).join('');
   const foot = state.players.map(p =>
-    `<td class="${totals[p.id] >= LIMIT ? 'dead' : ''}">${totals[p.id] >= LIMIT ? 'BUSTED' : totals[p.id]}</td>`
+    `<td class="${totals[p.id] >= LIMIT() ? 'dead' : ''}">${totals[p.id] >= LIMIT() ? 'BUSTED' : totals[p.id]}</td>`
   ).join('');
   t.innerHTML = `
     <thead><tr><th>#</th>${names}</tr></thead>
@@ -325,11 +362,21 @@ $('saveRound').addEventListener('click', () => {
   save(); render();
 
   const after = computeGame().totals;
-  const justBusted = state.players.filter(p => before[p.id] < LIMIT && after[p.id] >= LIMIT);
+  const justBusted = state.players.filter(p => before[p.id] < LIMIT() && after[p.id] >= LIMIT());
   if (justBusted.length) showBusted(justBusted.map(p => p.name));
 });
 
 $('undo').addEventListener('click', () => { state.rounds.pop(); save(); render(); });
+
+$('coffee').href = COFFEE_URL;
+
+$('limitInput').addEventListener('change', () => {
+  if (state.rounds.length) return;
+  let v = parseInt($('limitInput').value, 10);
+  if (isNaN(v)) v = 100;
+  state.limit = Math.min(1000, Math.max(20, v));
+  save(); render();
+});
 
 /* confirm() bývá v sandboxu blokovaný — potvrzení dvojím ťuknutím */
 let resetArmed = null;
@@ -359,7 +406,7 @@ function showBusted(names) {
   const overlay = $('busted');
   const word = $('bustedWord');
   word.innerHTML = '';
-  $('bustedWho').textContent = names.join(' + ') + (names.length > 1 ? ' jsou' : ' je') + ' venku! (100+)';
+  $('bustedWho').textContent = names.join(' + ') + (names.length > 1 ? ' jsou' : ' je') + ` venku! (${LIMIT()}+)`;
   overlay.classList.add('show');
   document.body.classList.add('grayscale');
   if (navigator.vibrate) navigator.vibrate([120, 60, 120, 60, 300]);
